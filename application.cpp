@@ -4,6 +4,22 @@
 #include "menu.h"
 #include "menu-drawer.h"
 
+class InteractiveCmdHandler: public telnet::CommandHandler {
+
+public:
+    cmd_sequence_t init() override {
+        return {
+                telnet::Command::Will(telnet::OPT_ECHO),
+                telnet::Command::Do(telnet::OPT_LINEMODE)
+        };
+    }
+
+    cmd_sequence_t response(const telnet::Command &command) override {
+        return cmd_sequence_t();
+    }
+
+};
+
 void init_terminal(terminal::TextScreen &text_screen, telnet::Stream &stream) {
     stream.writeBytes(text_screen.initialBytes());
     stream.flushOutput();
