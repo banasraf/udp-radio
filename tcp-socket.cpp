@@ -2,6 +2,7 @@
  * \author: Rafal Banas
  */
 #include "tcp-socket.h"
+#include <arpa/inet.h>
 
 using namespace std;
 
@@ -33,6 +34,10 @@ TcpStream TcpListener::acceptClient() {
     }
 
     return TcpStream(incoming_sock_fd, client_address, TCP_BUFFER_SIZE);
+}
+
+std::string TcpStream::ip() {
+    return std::string(inet_ntoa(client_address.sin_addr));
 }
 
 TcpListener::~TcpListener() noexcept {

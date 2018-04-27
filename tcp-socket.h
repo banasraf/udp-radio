@@ -43,6 +43,8 @@ private:
               client_address(client_address) {}
 
 public:
+    std::string ip();
+
     ~TcpStream() noexcept override;
 
 };

@@ -1,3 +1,4 @@
+#include <iostream>
 #include "application.h"
 #include "text-screen.h"
 #include "menu.h"
@@ -61,6 +62,8 @@ void event_loop(terminal::TextScreen &text_screen,
                 menu_drawer.drawAt(1, 0, menu);
                 stream.writeBytes(text_screen.renderToBytes());
                 stream.flushOutput();
+            } else {
+                std::cout << "Client has disconnected." << std::endl;
             }
         }
     }
@@ -79,7 +82,7 @@ void serve_client(TcpStream &tcp_stream) {
             {
                     menu::Option("OpcjaA", [&]() {actionA(text_screen);}),
                     menu::Option("OpcjaB", []() {}),
-                    menu::Option("Koniec", [&]() {client_exit = true;})
+                    menu::Option("Koniec", [&]() { client_exit = true; })
             });
 
     auto options_listing2 = menu::OptionsListing(
