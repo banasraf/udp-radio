@@ -60,6 +60,9 @@ namespace telnet {
 
     };
 
+    /**
+     * Interface for telnet command handler
+     */
     class CommandHandler {
 
     public:

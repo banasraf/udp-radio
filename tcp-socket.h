@@ -15,7 +15,7 @@
 #include <unistd.h>
 #include <vector>
 
-const int QUEUE_LENGTH = 5;
+const int QUEUE_LENGTH = 10;
 const unsigned long TCP_BUFFER_SIZE = 1024;
 
 /// Exception thrown when socket error occurs
@@ -26,7 +26,7 @@ public:
 
 };
 
-/// Byte stream for tcp connection
+/// Byte stream for tcp connection. Can be constructed only by TcpListener
 class TcpStream: public SystemStream {
 
 public:

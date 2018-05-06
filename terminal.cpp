@@ -1,3 +1,7 @@
+/**
+ * \author: Rafal Banas
+ */
+
 #include "terminal.h"
 
 terminal::Key terminal::KeyStream::nextKey() {

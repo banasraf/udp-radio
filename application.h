@@ -1,3 +1,6 @@
+/**
+ * \author: Rafal Banas
+ */
 #ifndef TELNET_SERVER_APPLICATION_H
 #define TELNET_SERVER_APPLICATION_H
 

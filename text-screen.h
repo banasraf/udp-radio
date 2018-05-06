@@ -1,3 +1,8 @@
+/**
+ * \author: Rafal Banas
+ * Module provides tools for convenient rich text printing in terminal
+ */
+
 #ifndef TELNET_SERVER_TEXT_SCREEN_H
 #define TELNET_SERVER_TEXT_SCREEN_H
 
@@ -9,6 +14,9 @@
 
 namespace terminal {
 
+    /**
+     * Namespace contains definitions of some terminal control sequences.
+     */
     namespace control {
 
         const ByteStream::series_t &ClearScreenSeq();
@@ -17,13 +25,22 @@ namespace terminal {
 
         const ByteStream::series_t &ShowCursorSeq();
 
+        /**
+         * Interface for terminal control sequence.
+         */
         class TerminalSequence {
 
         public:
+            /**
+             * Returns appropriate bytes sequence
+             */
             virtual ByteStream::series_t toBytes() = 0;
 
         };
 
+        /**
+         * Moves cursor left by 'shift' columns
+         */
         class MoveHorizontally: public TerminalSequence {
 
             int shift;
@@ -35,6 +52,9 @@ namespace terminal {
 
         };
 
+        /**
+         * Moves cursor down by 'shift' lines
+         */
         class MoveVertically: public TerminalSequence {
 
             int shift;
@@ -82,7 +102,9 @@ namespace terminal {
 
         };
 
-
+        /**
+         * Regular text
+         */
         class Text: public TerminalSequence {
 
             std::string text;
@@ -96,29 +118,55 @@ namespace terminal {
 
     }
 
+    /**
+     * Class representing terminal screen.
+     */
     class TextScreen {
 
     public:
         using control_seq_t = std::shared_ptr<control::TerminalSequence>;
         using line_t = std::vector<control_seq_t>;
-        using line_sequence_t = std::vector<line_t>;
+        using lines_sequence_t = std::vector<line_t>;
 
     private:
-        line_sequence_t line_sequence;
+        lines_sequence_t lines_sequence;
 
     public:
-        explicit TextScreen(unsigned long lines_count): line_sequence(lines_count) {};
+        /**
+         * Constructs text screen on given number of lines
+         * @param lines_count
+         */
+        explicit TextScreen(unsigned long lines_count): lines_sequence(lines_count) {};
 
+        /**
+         * Clear given line
+         */
         void clearLine(unsigned long line);
 
+        /**
+         * Clears whole reserved screen
+         */
         void clearScreen();
 
+        /**
+         * Write text in given place
+         */
         void writeAt(unsigned long line, int column, const std::string &text);
 
+        /**
+         * Write text in given place with reversed colors
+         */
         void writeReversedStyleAt(unsigned long line, int column, const std::string &text);
 
+        /**
+         * Render to byte message that should be printed.
+         * Clears all reserved lines and writes whole content in every bytes message.
+         */
         ByteStream::series_t renderToBytes();
 
+        /**
+         * Bytes that should be printed before working on text screen.
+         */
         ByteStream::series_t initialBytes();
 
     };

@@ -1,3 +1,7 @@
+/**
+ * \author: Rafal Banas
+ */
+
 #include "text-screen.h"
 
 using namespace std;
@@ -57,12 +61,12 @@ ByteStream::series_t terminal::control::Text::toBytes() {
 
 void terminal::TextScreen::clearLine(unsigned long line) {
     auto seq = new control::ClearLine();
-    line_sequence[line].clear();
-    line_sequence[line].push_back(shared_ptr<control::TerminalSequence>(seq));
+    lines_sequence[line].clear();
+    lines_sequence[line].push_back(shared_ptr<control::TerminalSequence>(seq));
 }
 
 void terminal::TextScreen::clearScreen() {
-    for (unsigned long i = 0; i < line_sequence.size(); ++i) {
+    for (unsigned long i = 0; i < lines_sequence.size(); ++i) {
         clearLine(i);
     }
 }
@@ -79,7 +83,7 @@ void terminal::TextScreen::writeAt(unsigned long line, int column, const std::st
                            control_seq_t(write_text),
                            control_seq_t(restore_position)
             });
-    line_sequence[line].insert(line_sequence[line].end(), to_append.begin(), to_append.end());
+    lines_sequence[line].insert(lines_sequence[line].end(), to_append.begin(), to_append.end());
 }
 
 ByteStream::series_t terminal::TextScreen::renderToBytes() {
@@ -87,7 +91,7 @@ ByteStream::series_t terminal::TextScreen::renderToBytes() {
     bytes.insert(bytes.end(), control::ClearScreenSeq().begin(), control::ClearScreenSeq().end());
     int v_shift = 0;
     auto next_line_bytes = control::MoveVertically(1).toBytes();
-    for (auto &line: line_sequence) {
+    for (auto &line: lines_sequence) {
         for (auto &control_seq : line) {
             auto control_bytes = control_seq->toBytes();
             bytes.insert(bytes.end(), control_bytes.begin(), control_bytes.end());
@@ -103,7 +107,7 @@ ByteStream::series_t terminal::TextScreen::renderToBytes() {
 ByteStream::series_t terminal::TextScreen::initialBytes() {
     auto bytes = ByteStream::series_t();
     int i;
-    for (i = 0; i < (int) line_sequence.size(); ++i) {
+    for (i = 0; i < (int) lines_sequence.size(); ++i) {
         bytes.push_back(CR_BYTE);
         bytes.push_back(LF_BYTE);
     }
@@ -115,9 +119,9 @@ ByteStream::series_t terminal::TextScreen::initialBytes() {
 void terminal::TextScreen::writeReversedStyleAt(unsigned long line, int column, const std::string &text) {
     auto reverse = new control::SetStyle(control::SetStyle::REVERSED);
     auto normal = new control::SetStyle(control::SetStyle::NORMAL);
-    line_sequence[line].push_back(control_seq_t(reverse));
+    lines_sequence[line].push_back(control_seq_t(reverse));
     writeAt(line, column, text);
-    line_sequence[line].push_back(control_seq_t(normal));
+    lines_sequence[line].push_back(control_seq_t(normal));
 }
 
 ByteStream::series_t terminal::control::SaveCursorPosition::toBytes() {

@@ -9,7 +9,7 @@ using namespace std;
 TcpListener::TcpListener(uint16_t port, int queue_length): port(port) {
     sock_fd = socket(PF_INET, SOCK_STREAM, 0);
     if (sock_fd < 0) {
-        throw SocketException("Error in socket(..)");
+        throw SocketException("Error in socket(...)");
     }
 
     server_address.sin_family = AF_INET;
@@ -17,11 +17,11 @@ TcpListener::TcpListener(uint16_t port, int queue_length): port(port) {
     server_address.sin_port = htons(port);
 
     if (bind(sock_fd, (struct sockaddr *) &server_address, sizeof(server_address)) < 0) {
-        throw SocketException("Error in bind(..)");
+        throw SocketException("Error in bind(...)");
     }
 
     if (listen(sock_fd, queue_length) < 0) {
-        throw SocketException("Error  in listen(..)");
+        throw SocketException("Error  in listen(...)");
     }
 }
 
@@ -30,7 +30,7 @@ TcpStream TcpListener::acceptClient() {
     socklen_t client_address_len = sizeof(client_address);
     int incoming_sock_fd = accept(sock_fd, (struct sockaddr *) &client_address, &client_address_len);
     if (incoming_sock_fd < 0) {
-        throw SocketException("Error in accept(..)");
+        throw SocketException("Error in accept(...)");
     }
 
     return TcpStream(incoming_sock_fd, client_address, TCP_BUFFER_SIZE);

@@ -4,6 +4,10 @@
 #include "menu.h"
 #include "menu-drawer.h"
 
+/**
+ * Telnet command handler. Sends WILL ECHO and DO LINEMODE on start.
+ * Responds DON'T to any other WILL, WON'T to any other DO, WON'T to any DO and DON'T to any WON'T
+ */
 class InteractiveCmdHandler: public telnet::CommandHandler {
 
 public:
@@ -15,14 +19,23 @@ public:
     }
 
     cmd_sequence_t response(const telnet::Command &command) override {
+        if (command.type == telnet::CMD_DONT && command.option != telnet::OPT_ECHO) {
+            return { telnet::Command::Wont(command.option) };
+        } else if (command.type == telnet::CMD_DO && command.option != telnet::OPT_ECHO) {
+            return { telnet::Command::Wont(command.option) };
+        } else if (command.type == telnet::CMD_WONT && command.option != telnet::OPT_LINEMODE) {
+            return  { telnet::Command::Dont(command.option) };
+        } else if (command.type == telnet::CMD_WILL && command.option != telnet::OPT_LINEMODE) {
+            return { telnet::Command::Dont(command.option) };
+        }
         return cmd_sequence_t();
     }
 
 };
 
 void init_terminal(terminal::TextScreen &text_screen, telnet::Stream &stream) {
+    stream.writeBytes(terminal::control::HideCursorSeq());
     stream.writeBytes(text_screen.initialBytes());
-    stream.flushOutput();
 }
 
 void actionA(terminal::TextScreen &text_screen) {
@@ -40,14 +53,15 @@ void actionB2(terminal::TextScreen &text_screen) {
     text_screen.writeAt(4, 1, "B2");
 }
 
+/**
+ * Main application loop for handling keyboard events.
+ */
 void event_loop(terminal::TextScreen &text_screen,
                 menu::Menu &menu,
                 telnet::Stream &stream,
                 bool &client_exit) {
     auto key_stream = terminal::KeyStream(stream);
     MenuDrawer menu_drawer(text_screen, 3);
-
-    stream.writeBytes(terminal::control::HideCursorSeq());
 
     menu_drawer.drawAt(1, 0, menu);
     stream.writeBytes(text_screen.renderToBytes());
