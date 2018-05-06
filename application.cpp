@@ -47,6 +47,8 @@ void event_loop(terminal::TextScreen &text_screen,
     auto key_stream = terminal::KeyStream(stream);
     MenuDrawer menu_drawer(text_screen, 3);
 
+    stream.writeBytes(terminal::control::HideCursorSeq());
+
     menu_drawer.drawAt(1, 0, menu);
     stream.writeBytes(text_screen.renderToBytes());
     stream.flushOutput();
@@ -82,6 +84,7 @@ void event_loop(terminal::TextScreen &text_screen,
                 stream.flushOutput();
             } else if (client_exit) {
                 stream.writeBytes(text_screen.renderToBytes());
+                stream.writeBytes(terminal::control::ShowCursorSeq());
                 stream.flushOutput();
                 std::cout << "Client has exited." << std::endl;
             } else {

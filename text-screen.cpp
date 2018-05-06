@@ -147,3 +147,8 @@ const ByteStream::series_t &terminal::control::HideCursorSeq() {
     static ByteStream::series_t *hide_cursor_seq = new ByteStream::series_t({ESCAPE_BYTE, '[', '?', '2', '5', 'l'});
     return *hide_cursor_seq;
 }
+
+const ByteStream::series_t &terminal::control::ShowCursorSeq() {
+    static ByteStream::series_t *show_cursor_seq = new ByteStream::series_t({ESCAPE_BYTE, '[', '?', '2', '5', 'h'});
+    return *show_cursor_seq;
+}

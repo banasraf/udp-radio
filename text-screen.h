@@ -15,6 +15,8 @@ namespace terminal {
 
         const ByteStream::series_t &HideCursorSeq();
 
+        const ByteStream::series_t &ShowCursorSeq();
+
         class TerminalSequence {
 
         public:
