@@ -40,6 +40,11 @@ void actionB2(terminal::TextScreen &text_screen) {
     text_screen.writeAt(4, 1, "B2");
 }
 
+void actionExit(terminal::TextScreen &text_screen, bool  &client_exit) {
+    client_exit = true;
+
+}
+
 void event_loop(terminal::TextScreen &text_screen,
                 menu::Menu &menu,
                 telnet::Stream &stream,
@@ -51,7 +56,9 @@ void event_loop(terminal::TextScreen &text_screen,
     stream.writeBytes(text_screen.renderToBytes());
     stream.flushOutput();
 
-    while (!client_exit) {
+    bool client_disconnect = false;
+
+    while (!client_exit && !client_disconnect) {
         auto key = key_stream.nextKey();
         if (key.isAction()) {
             switch (key.action) {
@@ -68,14 +75,17 @@ void event_loop(terminal::TextScreen &text_screen,
                     break;
                 }
                 case terminal::ActionKeyType::END_OF_STREAM: {
-                    client_exit = true;
+                    client_disconnect = true;
                     break;
                 }
                 default: {
                 }
             }
-            if (!client_exit) {
+            if (!client_exit && !client_disconnect) {
                 menu_drawer.drawAt(1, 0, menu);
+                stream.writeBytes(text_screen.renderToBytes());
+                stream.flushOutput();
+            } else if (client_exit) {
                 stream.writeBytes(text_screen.renderToBytes());
                 stream.flushOutput();
             } else {
