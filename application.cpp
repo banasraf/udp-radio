@@ -83,6 +83,7 @@ void event_loop(terminal::TextScreen &text_screen,
             } else if (client_exit) {
                 stream.writeBytes(text_screen.renderToBytes());
                 stream.flushOutput();
+                std::cout << "Client has exited." << std::endl;
             } else {
                 std::cout << "Client has disconnected." << std::endl;
             }

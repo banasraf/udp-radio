@@ -13,13 +13,13 @@ void telnetServer(uint16_t port) {
             try {
                 serve_client(net_stream);
             } catch (IOException &io_exception) {
-                cout << "IOException: " << "Disconnecting client due to IO error." << endl;
-                cerr << io_exception.what() << endl;
+                cout << "Disconnecting client due to IO error." << endl;
+                cerr << "IOException: " << io_exception.what() << endl;
             }
         }
     } catch (SocketException &socket_exception) {
-        cout << "SocketException: " << "Exiting due to socket error." << endl;
-        cerr << socket_exception.what() << endl;
+        cout << "Exiting due to socket error." << endl;
+        cerr << "SocketException: " << socket_exception.what() << endl;
     }
 }
 

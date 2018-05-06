@@ -58,7 +58,7 @@ ByteStream::series_t terminal::control::Text::toBytes() {
 void terminal::TextScreen::clearLine(unsigned long line) {
     auto seq = new control::ClearLine();
     line_sequence[line].clear();
-    line_sequence[line].push_back(unique_ptr<control::TerminalSequence>(seq));
+    line_sequence[line].push_back(shared_ptr<control::TerminalSequence>(seq));
 }
 
 void terminal::TextScreen::clearScreen() {
