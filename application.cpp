@@ -40,11 +40,6 @@ void actionB2(terminal::TextScreen &text_screen) {
     text_screen.writeAt(4, 1, "B2");
 }
 
-void actionExit(terminal::TextScreen &text_screen, bool  &client_exit) {
-    client_exit = true;
-
-}
-
 void event_loop(terminal::TextScreen &text_screen,
                 menu::Menu &menu,
                 telnet::Stream &stream,
