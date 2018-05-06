@@ -26,17 +26,17 @@ void init_terminal(terminal::TextScreen &text_screen, telnet::Stream &stream) {
 }
 
 void actionA(terminal::TextScreen &text_screen) {
-    text_screen.clearLine(5);
+    text_screen.clearLine(4);
     text_screen.writeAt(4, 1, "A");
 }
 
 void actionB1(terminal::TextScreen &text_screen) {
-    text_screen.clearLine(5);
+    text_screen.clearLine(4);
     text_screen.writeAt(4, 1, "B1");
 }
 
 void actionB2(terminal::TextScreen &text_screen) {
-    text_screen.clearLine(5);
+    text_screen.clearLine(4);
     text_screen.writeAt(4, 1, "B2");
 }
 
@@ -96,15 +96,15 @@ void serve_client(TcpStream &tcp_stream) {
 
     auto options_listing1 = menu::OptionsListing(
             {
-                    menu::Option("OpcjaA", [&]() {actionA(text_screen);}),
+                    menu::Option("OpcjaA", [&]() { actionA(text_screen); }),
                     menu::Option("OpcjaB", []() {}),
-                    menu::Option("Koniec", [&]() { client_exit = true; })
+                    menu::Option("Koniec", [&]() { client_exit = true; text_screen.clearScreen(); })
             });
 
     auto options_listing2 = menu::OptionsListing(
             {
-                    menu::Option("OpcjaB1", [&]() {actionB1(text_screen);}),
-                    menu::Option("OpcjaB2", [&]() {actionB2(text_screen);}),
+                    menu::Option("OpcjaB1", [&]() { actionB1(text_screen); }),
+                    menu::Option("OpcjaB2", [&]() { actionB2(text_screen); }),
                     menu::Option("Wstecz", [](){}, &options_listing1)
             });
 
