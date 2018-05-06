@@ -11,9 +11,7 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0a3bab5f-0b2f-47ae-b8ef-b8b1f6edde6b" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/application.h" beforeDir="false" afterPath="$PROJECT_DIR$/application.h" afterDir="false" />
-    </list>
+    <list default="true" id="0a3bab5f-0b2f-47ae-b8ef-b8b1f6edde6b" name="Default" comment="" />
     <ignored path="$PROJECT_DIR$/cmake-build-debug/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -222,12 +220,12 @@
       <workItem from="1524554769856" duration="398000" />
       <workItem from="1524555185218" duration="2070000" />
       <workItem from="1524558833823" duration="41000" />
-      <workItem from="1524777598389" duration="12122000" />
+      <workItem from="1524777598389" duration="12445000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="109977000" />
+    <option name="totallyTimeSpent" value="110300000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="64" y="-11" width="1857" height="1092" extended-state="6" />
@@ -239,7 +237,7 @@
       <window_info anchor="bottom" id="CMake" order="11" />
       <window_info anchor="bottom" id="Event Log" order="9" sideWeight="0.50026953" side_tool="true" weight="0.31390592" />
       <window_info anchor="bottom" id="Version Control" order="10" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.49973047" visible="true" weight="0.31454918" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49973047" weight="0.31454918" />
       <window_info anchor="bottom" id="Terminal" order="8" />
       <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.20053908" />
       <window_info anchor="bottom" id="Statistic" order="12" weight="0.32924336" />
