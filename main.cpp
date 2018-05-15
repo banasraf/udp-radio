@@ -4,7 +4,7 @@
 using namespace std;
 
 
-void telnetServer(uint16_t port) {
+int telnetServer(uint16_t port) {
     try {
         TcpListener tcpListener(port);
         while (true) {
@@ -20,6 +20,7 @@ void telnetServer(uint16_t port) {
     } catch (SocketException &socket_exception) {
         cout << "Exiting due to socket error." << endl;
         cerr << "SocketException: " << socket_exception.what() << endl;
+        return 1;
     }
 }
 
@@ -27,24 +28,24 @@ void telnetServer(uint16_t port) {
 int main(int argc, char** argv) {
     if (argc != 2) {
         cout << "USAGE: <program> port" << endl;
-        return -1;
+        return 1;
     }
     int port_i;
     try {
         port_i = std::stoi(argv[1]);
     } catch (invalid_argument &exc) {
         cout << "Invalid port argument" << endl;
-        return -1;
+        return 1;
     } catch (out_of_range &exc) {
         cout << "Port number must be between 0 and " << std::numeric_limits<uint16_t>::max() << endl;
-        return -1;
+        return 1;
     }
     if (port_i < 0 || port_i > std::numeric_limits<uint16_t>::max()) {
         cout << "Port number must be between 0 and " << std::numeric_limits<uint16_t>::max() << endl;
-        return -1;
+        return 1;
     }
     auto port = (uint16_t) port_i;
-    telnetServer(port);
+    return telnetServer(port);
 }
 
 
