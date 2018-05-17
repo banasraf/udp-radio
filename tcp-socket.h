@@ -14,6 +14,7 @@
 #include <exception>
 #include <unistd.h>
 #include <vector>
+#include <memory>
 
 const int QUEUE_LENGTH = 10;
 const unsigned long TCP_BUFFER_SIZE = 1024;
@@ -43,7 +44,13 @@ private:
               client_address(client_address) {}
 
 public:
+    TcpStream(TcpStream &&stream) noexcept: SystemStream(std::move(stream)), client_address(stream.client_address) {
+        stream.inactivate();
+    }
+
     std::string ip();
+
+    void inactivate();
 
     ~TcpStream() noexcept override;
 
@@ -68,7 +75,7 @@ public:
      * Accepts connection from client.
      * @return stream to read from / write to client.
      */
-    TcpStream acceptClient();
+    std::shared_ptr<TcpStream> acceptClient();
 
     ~TcpListener() noexcept;
 

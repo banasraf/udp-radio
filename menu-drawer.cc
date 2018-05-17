@@ -1,6 +1,6 @@
 #include "menu-drawer.h"
 
-void MenuDrawer::drawAt(unsigned long line, int column, const menu::Menu &menu) {
+void MenuDrawer::drawAt(terminal::TextScreen &text_screen, unsigned long line, int column, const menu::Menu &menu) {
     unsigned long active_index = menu.getActiveIndex();
     auto texts = menu.getTextsListing();
 

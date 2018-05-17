@@ -31,6 +31,7 @@ void SystemStream::writeBytes(const ByteStream::series_t &series) {
 void SystemStream::flushOutput() {
     ssize_t sent_count = write(out_fd, output_buffer, buffer_cursor);
     if (sent_count != (ssize_t) buffer_cursor) {
+        perror("write");
         throw IOException("Error while writing.");
     }
     buffer_cursor = 0;

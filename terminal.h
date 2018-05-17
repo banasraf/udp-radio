@@ -20,6 +20,7 @@ namespace terminal {
         ARROW_DOWN,
         ARROW_LEFT,
         ARROW_RIGHT,
+        NONE,          // Placeholder key
         END_OF_STREAM  // special key for indicating byte stream's eof
 
     };

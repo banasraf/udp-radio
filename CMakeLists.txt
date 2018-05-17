@@ -4,4 +4,12 @@ project(telnet_server)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_FLAGS "-Wall -Wextra -pedantic")
 
-add_executable(telnet_server main.cpp tcp-socket.cpp tcp-socket.h byte-stream.h system-stream.cpp system-stream.h telnet-processor.cpp telnet-processor.h menu.cpp menu.h terminal.cpp terminal.h text-screen.cpp text-screen.h menu-drawer.cpp menu-drawer.h application.cpp application.h)
+find_package (Threads)
+
+set(SOURCES threading.cc threading.h tcp-socket.cc tcp-socket.h byte-stream.h system-stream.cc system-stream.h telnet-processor.cc telnet-processor.h menu.cc menu.h terminal.cc terminal.h text-screen.cc text-screen.h menu-drawer.cc menu-drawer.h)
+
+set(RECEIVER_SOURCES receiver_main.cc radio-menu.cc radio-menu.h ${SOURCES})
+
+add_executable(receiver ${RECEIVER_SOURCES})
+
+target_link_libraries (receiver ${CMAKE_THREAD_LIBS_INIT})

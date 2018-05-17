@@ -3,6 +3,7 @@
  */
 #include "tcp-socket.h"
 #include <arpa/inet.h>
+#include <memory>
 
 using namespace std;
 
@@ -25,7 +26,7 @@ TcpListener::TcpListener(uint16_t port, int queue_length): port(port) {
     }
 }
 
-TcpStream TcpListener::acceptClient() {
+std::shared_ptr<TcpStream> TcpListener::acceptClient() {
     struct sockaddr_in client_address;
     socklen_t client_address_len = sizeof(client_address);
     int incoming_sock_fd = accept(sock_fd, (struct sockaddr *) &client_address, &client_address_len);
@@ -33,7 +34,7 @@ TcpStream TcpListener::acceptClient() {
         throw SocketException("Error in accept(...)");
     }
 
-    return TcpStream(incoming_sock_fd, client_address, TCP_BUFFER_SIZE);
+    return std::shared_ptr<TcpStream>(new TcpStream(incoming_sock_fd, client_address, TCP_BUFFER_SIZE));
 }
 
 std::string TcpStream::ip() {
@@ -45,5 +46,10 @@ TcpListener::~TcpListener() noexcept {
 }
 
 TcpStream::~TcpStream() noexcept {
-    close(in_fd);
+    if (in_fd >= 0)
+        close(in_fd);
+}
+
+void TcpStream::inactivate() {
+    in_fd = -1;
 }

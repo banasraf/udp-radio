@@ -29,6 +29,7 @@ protected:
     int out_fd;
     size_type buffer_size;
     size_type buffer_cursor;
+public:
     uint8_t *output_buffer;
 
     /**
@@ -42,6 +43,15 @@ protected:
               buffer_size(buffer_size),
               buffer_cursor(0),
               output_buffer(new uint8_t[buffer_size]) {};
+
+    SystemStream(SystemStream &&stream)
+            : in_fd(stream.in_fd),
+              out_fd(stream.out_fd),
+              buffer_size(stream.buffer_size),
+              buffer_cursor(stream.buffer_cursor),
+              output_buffer(stream.output_buffer) {
+        stream.output_buffer = nullptr;
+    }
 
 public:
     series_t readBytes(size_t size_limit) override;
