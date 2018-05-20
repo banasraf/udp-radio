@@ -10,10 +10,6 @@
 #include "menu-drawer.h"
 #include <iostream>
 
-MutexValue<menu::Menu> &radio_menu();
-
-MutexValue<terminal::TextScreen> &text_screen();
-
 /**
  * Telnet command handler. Sends WILL ECHO and DO LINEMODE on start.
  * Responds DON'T to any other WILL, WON'T to any other DO, WON'T to any DO and DON'T to any WON'T
@@ -72,8 +68,6 @@ struct MenuEvent {
 
 };
 
-MultiInputStream<MenuEvent> &event_stream();
-
 class UserConnection {
 
     InteractiveCmdHandler telnetCmdHandler;
@@ -96,8 +90,18 @@ public:
 
 };
 
-void serveUser(ByteStream &net_stream);
+void handleUserInput(ByteStream &net_stream);
 
-void eventLoop(MultiWriter &output);
+void eventLoop();
+
+void menuServer(uint16_t port);
+
+MutexValue<menu::Menu> &radio_menu();
+
+MutexValue<terminal::TextScreen> &text_screen();
+
+MultiWriter &menu_output();
+
+MultiInputStream<MenuEvent> &event_stream();
 
 #endif //TELNET_SERVER_RADIO_MENU_H
