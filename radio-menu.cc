@@ -64,14 +64,14 @@ void eventLoop() {
         if (event.tag == MenuEvent::Tag::USER_EVENT) {
             switch (event.key) {
                 case terminal::ActionKeyType::ARROW_DOWN: {
-                    radio_menu().lock().get().down();
-                    radio_menu().lock().get().enter();
+                    radio_menu().lock()->down();
+                    radio_menu().lock()->enter();
                     sendMenu();
                     break;
                 }
                 case terminal::ActionKeyType::ARROW_UP: {
-                    radio_menu().lock().get().up();
-                    radio_menu().lock().get().enter();
+                    radio_menu().lock()->up();
+                    radio_menu().lock()->enter();
                     sendMenu();
                     break;
                 }
@@ -115,8 +115,8 @@ void menuServer(uint16_t port) {
             menu_output().addStream(writer);
             {
                 auto writer_lock = writer->lock();
-                writer_lock->writeBytes(text_screen().lock().get().initialBytes());
-                writer_lock->writeBytes(text_screen().lock().get().renderToBytes());
+                writer_lock->writeBytes(text_screen().lock()->initialBytes());
+                writer_lock->writeBytes(text_screen().lock()->renderToBytes());
                 writer_lock->flushOutput();
             }
             handleUserInput(*stream);
