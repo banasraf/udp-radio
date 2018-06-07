@@ -6,20 +6,13 @@
 #define TELNET_SERVER_SYSTEM_STREAM_H
 
 #include "byte-stream.h"
+#include "errors.h"
 
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <unistd.h>
 #include <vector>
 #include <stdexcept>
-
-/// Exception thrown by IO methods
-class IOException: public std::runtime_error {
-
-public:
-    explicit IOException(const std::string &msg): std::runtime_error(msg) {}
-
-};
 
 /// Abstract byte stream class for handling system input and output working on file descriptors.
 class SystemStream: public ByteStream {

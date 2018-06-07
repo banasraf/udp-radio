@@ -75,18 +75,26 @@ class UserConnection {
     std::shared_ptr<TcpStream> tcp_stream;
     std::shared_ptr<telnet::Stream> telnet_stream;
     std::shared_ptr<MutexValue<ByteStreamWriter>> writer;
+    MultiWriter &output;
 
 public:
-    UserConnection(MultiWriter &output, const std::shared_ptr<TcpStream> &_tcp_stream):
+    UserConnection(MultiWriter &_output, const std::shared_ptr<TcpStream> &_tcp_stream):
             tcp_stream(_tcp_stream),
             telnet_stream(new telnet::Stream(*tcp_stream, telnetCmdHandler)),
-            writer(new MutexValue(ByteStreamWriter(telnet_stream))) {
+            writer(new MutexValue(ByteStreamWriter(telnet_stream))), 
+            output(_output) {
         output.addStream(writer);
     }
+    
+    std::string getIP();
 
     std::shared_ptr<telnet::Stream> getStream();
 
     std::shared_ptr<MutexValue<ByteStreamWriter>> getWriter();
+    
+    ~UserConnection() {
+        output.removeStream(writer);
+    }
 
 };
 

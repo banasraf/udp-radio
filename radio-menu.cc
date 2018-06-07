@@ -1,5 +1,6 @@
 #include <list>
 #include <memory>
+#include <iostream>
 #include "telnet-processor.h"
 #include "radio-menu.h"
 
@@ -53,8 +54,12 @@ void sendMenu() {
     auto output_lock = menu_output().lock();
     MenuDrawer md(15);
     md.drawAt(text_screen_lock.get(), 3, 2, menu_lock.get());
-    output_lock.writeBytes(text_screen_lock->renderToBytes());
-    output_lock.flushOutput();
+    try {
+        output_lock.writeBytes(text_screen_lock->renderToBytes());
+        output_lock.flushOutput();
+    } catch (const IOException &e) {
+        std::cerr << "Radio menu: write error." << std::endl;
+    }
 }
 
 void eventLoop() {
@@ -112,15 +117,18 @@ void menuServer(uint16_t port) {
             UserConnection connection(menu_output(), new_tcp_stream);
             auto stream = connection.getStream();
             auto writer = connection.getWriter();
-            menu_output().addStream(writer);
             {
                 auto writer_lock = writer->lock();
                 writer_lock->writeBytes(text_screen().lock()->initialBytes());
                 writer_lock->writeBytes(text_screen().lock()->renderToBytes());
                 writer_lock->flushOutput();
             }
-            handleUserInput(*stream);
-            menu_output().removeStream(writer);
+            try {
+                handleUserInput(*stream);
+            } catch (const IOException &e) {
+                std::cerr << e.what() << std::endl;
+            }
+            std::cout << "Radio menu: client " << connection.getIP() << " has disconnected." << std::endl;
         }));
 
     }
@@ -132,4 +140,8 @@ std::shared_ptr<telnet::Stream> UserConnection::getStream() {
 
 std::shared_ptr<MutexValue<ByteStreamWriter>> UserConnection::getWriter() {
     return writer;
+}
+
+std::string UserConnection::getIP() {
+    return tcp_stream->ip();
 }

@@ -8,6 +8,7 @@
 
 #include "byte-stream.h"
 #include "system-stream.h"
+#include "errors.h"
 
 #include <sys/socket.h>
 #include <netinet/in.h>
@@ -18,14 +19,6 @@
 
 const int QUEUE_LENGTH = 10;
 const unsigned long TCP_BUFFER_SIZE = 1024;
-
-/// Exception thrown when socket error occurs
-class SocketException: public std::runtime_error {
-
-public:
-    explicit SocketException(const std::string &msg): std::runtime_error(msg) {}
-
-};
 
 /// Byte stream for tcp connection. Can be constructed only by TcpListener
 class TcpStream: public SystemStream {
