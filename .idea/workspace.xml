@@ -15,21 +15,7 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0a3bab5f-0b2f-47ae-b8ef-b8b1f6edde6b" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/player.cc" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/player.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/CMakeLists.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/audio-transmission.cc" beforeDir="false" afterPath="$PROJECT_DIR$/audio-transmission.cc" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/audio-transmission.h" beforeDir="false" afterPath="$PROJECT_DIR$/audio-transmission.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/receiver_main.cc" beforeDir="false" afterPath="$PROJECT_DIR$/receiver_main.cc" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sender.cc" beforeDir="false" afterPath="$PROJECT_DIR$/sender.cc" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sender.h" beforeDir="false" afterPath="$PROJECT_DIR$/sender.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sender_main.cc" beforeDir="false" afterPath="$PROJECT_DIR$/sender_main.cc" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/threading.h" beforeDir="false" afterPath="$PROJECT_DIR$/threading.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/udp.cc" beforeDir="false" afterPath="$PROJECT_DIR$/udp.cc" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/udp.h" beforeDir="false" afterPath="$PROJECT_DIR$/udp.h" afterDir="false" />
-    </list>
+    <list default="true" id="0a3bab5f-0b2f-47ae-b8ef-b8b1f6edde6b" name="Default" comment="" />
     <ignored path="$PROJECT_DIR$/cmake-build-debug/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -102,7 +88,7 @@
         <entry file="file://$PROJECT_DIR$/audio-transmission.h">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="368">
-              <caret line="23" column="43" lean-forward="true" selection-start-line="23" selection-start-column="43" selection-end-line="23" selection-end-column="43" />
+              <caret line="23" column="43" selection-start-line="23" selection-start-column="43" selection-end-line="23" selection-end-column="43" />
               <folding>
                 <element signature="e#87#105#0" expanded="true" />
               </folding>
@@ -114,7 +100,7 @@
         <entry file="file://$PROJECT_DIR$/sender.cc">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="383">
-              <caret line="98" column="22" lean-forward="true" selection-start-line="98" selection-start-column="22" selection-end-line="98" selection-end-column="22" />
+              <caret line="98" column="22" selection-start-line="98" selection-start-column="22" selection-end-line="98" selection-end-column="22" />
               <folding>
                 <element signature="e#0#19#0" expanded="true" />
               </folding>
@@ -326,12 +312,12 @@
       <workItem from="1528380609842" duration="7437000" />
       <workItem from="1528391068457" duration="8526000" />
       <workItem from="1528400034437" duration="23851000" />
-      <workItem from="1528478162847" duration="30369000" />
+      <workItem from="1528478162847" duration="30846000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="282260000" />
+    <option name="totallyTimeSpent" value="282737000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-1" y="0" width="1922" height="1053" extended-state="6" />
@@ -671,7 +657,7 @@
     <entry file="file://$PROJECT_DIR$/sender.cc">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="383">
-          <caret line="98" column="22" lean-forward="true" selection-start-line="98" selection-start-column="22" selection-end-line="98" selection-end-column="22" />
+          <caret line="98" column="22" selection-start-line="98" selection-start-column="22" selection-end-line="98" selection-end-column="22" />
           <folding>
             <element signature="e#0#19#0" expanded="true" />
           </folding>
@@ -681,7 +667,7 @@
     <entry file="file://$PROJECT_DIR$/audio-transmission.h">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="368">
-          <caret line="23" column="43" lean-forward="true" selection-start-line="23" selection-start-column="43" selection-end-line="23" selection-end-column="43" />
+          <caret line="23" column="43" selection-start-line="23" selection-start-column="43" selection-end-line="23" selection-end-column="43" />
           <folding>
             <element signature="e#87#105#0" expanded="true" />
           </folding>
