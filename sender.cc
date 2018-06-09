@@ -8,13 +8,13 @@
 void streamer() {
 
     PacketReader pr(configuration()->psize, configuration()->session_id);
-    udp::Socket sock;
+    udp::Broadcaster sock(configuration()->data_address);
 
     while (true) {
         auto packet = pr.readPacket();
         if (!packet) break;
         packet_fifo()->push(*packet);
-        sock.send(udp::Datagram(configuration()->data_address, packet->toBytes()));
+        sock.send(packet->toBytes());
     }
 
 }
@@ -56,7 +56,7 @@ void handle_rexmit(const udp::Address &caller, const std::string &packets_list) 
         uint64_t fbn;
         try {
             fbn = std::stoul(fbn_string);
-            new_orders.emplace_back(fbn, caller.getIP());
+            if (fbn % configuration()->psize == 0) new_orders.emplace_back(fbn, caller.getIP());
         } catch (...) {}
     }
 
@@ -118,8 +118,8 @@ void resend_packets(udp::Socket &sock) {
 void resender() {
     udp::Socket sock;
     timespec t {
-            configuration()->rtime / 1000000,
-            configuration()->rtime % 1000000 * 1000
+            configuration()->rtime / 1000,
+            configuration()->rtime % 1000 * 1000
     };
     timespec trem {0, 0};
     while (true) {

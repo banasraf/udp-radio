@@ -4,6 +4,7 @@
 #include <cstdint>
 #include <vector>
 #include <optional>
+#include <map>
 #include "threading.h"
 
 struct AudioPacket {
@@ -19,6 +20,8 @@ struct AudioPacket {
     AudioPacket(): session_id(0), first_byte_num(0), data() {};
     
     std::vector<uint8_t> toBytes();
+
+    static std::optional<AudioPacket> fromBytes(const std::vector<uint8_t> &bytes);
 
 };
 
@@ -65,6 +68,41 @@ public:
     bool hasPacket(uint64_t fbn);
 
     std::optional<AudioPacket> getPacket(uint64_t fbn);
+
+};
+
+class AudioBuffer {
+
+    using packets_t = std::list<std::optional<AudioPacket>>;
+
+    size_t size;
+    size_t psize;
+    packets_t packets;
+    std::map<uint64_t, packets_t::iterator> missing_map;
+    MutexValue<std::list<uint64_t>> &missing_packets;
+    uint64_t lowest_fbn;
+    bool ready;
+
+    void dropPacket();
+
+    void insertPacket(const std::optional<AudioPacket> &ap);
+
+    void putMissing(const AudioPacket &ap);
+
+public:
+    AudioBuffer(size_t size, const AudioPacket &initial_packet, MutexValue<std::list<uint64_t>> &missing_packets):
+            size(size),
+            psize(initial_packet.data.size()),
+            packets({initial_packet}),
+            missing_packets(missing_packets),
+            lowest_fbn(initial_packet.first_byte_num),
+            ready(false) {}
+
+    void push(const AudioPacket &ap);
+
+    std::optional<AudioPacket> pop();
+
+    bool isReady();
 
 };
 

@@ -8,55 +8,92 @@
 #include "udp.h"
 #include "sender.h"
 
-int main() {
+using namespace std;
 
-//    const char *host_name = "224.0.1.1";
-//    const uint16_t port = (uint16_t) 12346;
-//    std::string message = "Bla bla bla";
-//    int broadcast = 1;
-//    int ttl = 4;
-//
-//    struct hostent *host = gethostbyname(host_name);
-//
-//    int sock_fd = socket(AF_INET, SOCK_DGRAM, 0);
-//    printf("%d\n", sock_fd);
-//    if (setsockopt(sock_fd, SOL_SOCKET, SO_BROADCAST, &broadcast, sizeof broadcast) < 0) {
-//        perror("setsockopt");
-//        exit(1);
-//    }
-//
-//    if (setsockopt(sock_fd, IPPROTO_IP, IP_MULTICAST_TTL, (void*)&ttl, sizeof ttl) < 0)
-//        perror("setsockopt multicast ttl");
-//
-//    ttl = 0;
-//    if (setsockopt(sock_fd, SOL_IP, IP_MULTICAST_LOOP, (void*)&ttl, sizeof ttl) < 0)
-//        perror("setsockopt loop");
-//
-//    struct sockaddr_in their_addr;
-//
-//    their_addr.sin_family = AF_INET;     // host byte order
-//    their_addr.sin_port = htons(port); // short, network byte order
-//    their_addr.sin_addr = *((struct in_addr *)host->h_addr);
-//    std::memset(their_addr.sin_zero, 0, sizeof their_addr.sin_zero);
-//
-//    while (true) {
-//        if (sendto(sock_fd, message.c_str(), message.size(), 0, (struct sockaddr *) &their_addr, sizeof(their_addr)) <
-//            0) {
-//            perror("sendto");
-//            close(sock_fd);
-//            exit(1);
-//        }
-//        sleep(2);
-//    }
+static const uint16_t MIN_PORT = 1;
+static const uint16_t MAX_PORT = std::numeric_limits<uint16_t>::max();
 
-    configuration() = std::make_unique<Configuration>("127.0.0.1");
+uint16_t validatePort(const string &port) {
+    unsigned long ul = stoul(port);
+    if (ul >= MIN_PORT && ul <= MAX_PORT) {
+        return (uint16_t) ul;
+    } else {
+        throw std::exception();
+    }
+}
+
+void getConfiguration(int argc, char *argv[]) {
+    string mcast;
+    string data_port;
+    string control_port;
+    string psize;
+    string fsize;
+    string rtime;
+    string name;
+    int opt;
+    while ((opt = getopt(argc, argv, ":a:P:C:p:f:R:n")) != -1) {
+        switch (opt) {
+            case 'a':
+                mcast = optarg;
+                break;
+            case 'P':
+                data_port = optarg;
+                break;
+            case 'C':
+                control_port = optarg;
+                break;
+            case 'p':
+                psize = optarg;
+                break;
+            case 'f':
+                fsize = optarg;
+                break;
+            case 'R':
+                rtime = optarg;
+                break;
+            case 'n':
+                name = optarg;
+                break;
+            default: {
+                std::cout << "Invalid arguments." << std::endl;
+                exit(1);
+            }
+        }
+    }
+    try {
+        configuration() = std::make_unique<Configuration>(mcast);
+        if (!data_port.empty()) {
+            configuration()->data_address.setPort(validatePort(data_port));
+        }
+        if (!control_port.empty()) {
+            configuration()->control_port = validatePort(control_port);
+        }
+        if (!psize.empty()) {
+            configuration()->psize = stoul(psize);
+        }
+        if (!fsize.empty()) {
+            configuration()->fsize = stoul(fsize);
+        }
+        if (!rtime.empty()) {
+            configuration()->rtime = stol(rtime);
+            if (configuration()->rtime <= 0) throw std::exception();
+        }
+        if (!name.empty()) {
+            configuration()->name = name;
+        }
+    } catch (...) {
+        std::cout << "Invalid arguments." << std::endl;
+        exit(1);
+    }
+}
+
+int main(int argc, char *argv[]) {
+
+    getConfiguration(argc, argv);
     packet_fifo() =
             std::make_unique<PacketFifo>(configuration()->fsize / configuration()->psize, configuration()->psize);
 
-    configuration()->psize = 15;
-    configuration()->control_port = 10001;
-    controller();
-//    configuration()->data_address.setPort(10001);
-//    streamer();
-
+    std::thread controller_thread(controller);
+    std::thread resender_thread(resender);
+    streamer();
 }

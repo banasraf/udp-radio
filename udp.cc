@@ -16,6 +16,13 @@ std::string udp::Address::getIP() const {
     return std::string(inet_ntoa(address->sin_addr));
 }
 
+udp::Address &udp::Address::operator=(const udp::Address &rhs) {
+    if (this != &rhs) {
+        *address = *rhs.address;
+    }
+    return *this;
+}
+
 udp::Socket::~Socket() {
     close(fd);
 }
@@ -48,4 +55,17 @@ void udp::Socket::bindToPort(uint16_t port) {
     local_address.sin_port = htons(port);
     if (bind(fd, (struct sockaddr *)&local_address, sizeof local_address) < 0)
         throw SocketException("Error while binding socket to port.");
+}
+
+void udp::Broadcaster::send(const std::vector<uint8_t> &bytes) {
+    write(fd, bytes.data(), bytes.size());
+}
+
+std::vector<uint8_t> udp::GroupReceiver::receive() {
+    std::vector<uint8_t> buffer(Socket::MAX_DATAGRAM_SIZE);
+    ssize_t count = read(fd, buffer.data(), Socket::MAX_DATAGRAM_SIZE);
+    if (count < 0)
+        throw IOException("Error while reading from group address.");
+    buffer.resize((unsigned long) count);
+    return buffer;
 }

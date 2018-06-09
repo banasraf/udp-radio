@@ -30,7 +30,7 @@ struct Configuration {
             psize(DEFAULT_PSIZE),
             fsize(DEFAULT_FSIZE),
             rtime(DEFAULT_RTIME),
-            name("Nienazwany nadajnik"),
+            name("Nienazwany Nadajnik"),
             session_id((uint64_t) std::time(nullptr)) {}
 
 };
@@ -47,5 +47,7 @@ MutexValue<rexmit_orders_t> &rexmit_orders();
 void streamer();
 
 void controller();
+
+void resender();
 
 #endif //TELNET_SERVER_SENDER_H

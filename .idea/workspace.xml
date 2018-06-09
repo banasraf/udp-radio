@@ -16,22 +16,17 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0a3bab5f-0b2f-47ae-b8ef-b8b1f6edde6b" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/audio-transmission.cc" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/audio-transmission.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/control-protocol.cc" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/control-protocol.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/errors.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/sender.cc" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/sender.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/player.cc" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/player.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/CMakeLists.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/radio-menu.cc" beforeDir="false" afterPath="$PROJECT_DIR$/radio-menu.cc" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/radio-menu.h" beforeDir="false" afterPath="$PROJECT_DIR$/radio-menu.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/audio-transmission.cc" beforeDir="false" afterPath="$PROJECT_DIR$/audio-transmission.cc" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/audio-transmission.h" beforeDir="false" afterPath="$PROJECT_DIR$/audio-transmission.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/receiver_main.cc" beforeDir="false" afterPath="$PROJECT_DIR$/receiver_main.cc" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sender.cc" beforeDir="false" afterPath="$PROJECT_DIR$/sender.cc" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sender.h" beforeDir="false" afterPath="$PROJECT_DIR$/sender.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sender_main.cc" beforeDir="false" afterPath="$PROJECT_DIR$/sender_main.cc" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/system-stream.h" beforeDir="false" afterPath="$PROJECT_DIR$/system-stream.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tcp-socket.h" beforeDir="false" afterPath="$PROJECT_DIR$/tcp-socket.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/threading.h" beforeDir="false" afterPath="$PROJECT_DIR$/threading.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/udp.cc" beforeDir="false" afterPath="$PROJECT_DIR$/udp.cc" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/udp.h" beforeDir="false" afterPath="$PROJECT_DIR$/udp.h" afterDir="false" />
     </list>
@@ -46,13 +41,58 @@
   <component name="ExecutionTargetManager" SELECTED_TARGET="CMakeBuildProfile:Debug" />
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="receiver_main.cc" pinned="false" current-in-tab="false">
+      <file leaf-file-name="receiver_main.cc" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/receiver_main.cc">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-8">
-              <caret line="17" column="48" selection-start-line="17" selection-start-column="48" selection-end-line="17" selection-end-column="48" />
+            <state relative-caret-position="383">
+              <caret line="37" selection-start-line="37" selection-end-line="37" />
               <folding>
                 <element signature="e#0#19#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="udp.cc" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/udp.cc">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="95">
+              <caret line="47" column="44" selection-start-line="47" selection-start-column="44" selection-end-line="47" selection-end-column="44" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="audio-transmission.cc" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/audio-transmission.cc">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="335">
+              <caret line="77" column="103" selection-start-line="77" selection-start-column="103" selection-end-line="77" selection-end-column="103" />
+              <folding>
+                <element signature="e#0#19#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="sender_main.cc" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/sender_main.cc">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1199">
+              <caret line="95" column="39" selection-start-line="95" selection-start-column="39" selection-end-line="95" selection-end-column="39" />
+              <folding>
+                <element signature="e#0#19#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="udp.h" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/udp.h">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="433">
+              <caret line="91" column="18" selection-start-line="91" selection-start-column="18" selection-end-line="91" selection-end-column="18" />
+              <folding>
+                <element signature="e#57#80#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -61,34 +101,10 @@
       <file leaf-file-name="audio-transmission.h" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/audio-transmission.h">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-307">
-              <caret line="20" column="30" selection-start-line="20" selection-start-column="30" selection-end-line="20" selection-end-column="30" />
+            <state relative-caret-position="368">
+              <caret line="23" column="43" lean-forward="true" selection-start-line="23" selection-start-column="43" selection-end-line="23" selection-end-column="43" />
               <folding>
                 <element signature="e#87#105#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="sender_main.cc" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/sender_main.cc">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-339">
-              <caret line="8" column="19" selection-start-line="8" selection-start-column="19" selection-end-line="8" selection-end-column="19" />
-              <folding>
-                <element signature="e#0#19#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="sender.h" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/sender.h">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="248">
-              <caret line="22" column="8" selection-start-line="22" selection-start-column="8" selection-end-line="22" selection-end-column="8" />
-              <folding>
-                <element signature="e#63#81#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -97,8 +113,8 @@
       <file leaf-file-name="sender.cc" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/sender.cc">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="80">
-              <caret line="5" column="19" selection-start-line="5" selection-start-column="19" selection-end-line="5" selection-end-column="19" />
+            <state relative-caret-position="383">
+              <caret line="98" column="22" lean-forward="true" selection-start-line="98" selection-start-column="22" selection-end-line="98" selection-end-column="22" />
               <folding>
                 <element signature="e#0#19#0" expanded="true" />
               </folding>
@@ -106,49 +122,34 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="tcp-socket.cc" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/tcp-socket.cc">
+      <file leaf-file-name="player.cc" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/player.cc">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="109">
-              <caret line="21" column="5" selection-start-line="21" selection-start-column="5" selection-end-line="21" selection-end-column="5" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="control-protocol.cc" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/control-protocol.cc">
-          <provider selected="true" editor-type-id="text-editor">
-            <state>
-              <caret column="29" selection-start-column="29" selection-end-column="29" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="control-protocol.h" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/control-protocol.h">
-          <provider selected="true" editor-type-id="text-editor">
-            <state>
-              <caret column="40" selection-start-column="40" selection-end-column="40" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="udp.cc" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/udp.cc">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="240">
-              <caret line="15" column="42" selection-start-line="15" selection-start-column="42" selection-end-line="15" selection-end-column="42" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="udp.h" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/udp.h">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="768">
-              <caret line="48" column="23" selection-start-line="48" selection-start-column="23" selection-end-line="48" selection-end-column="23" />
+            <state relative-caret-position="48">
+              <caret line="3" column="25" selection-start-line="3" selection-start-column="25" selection-end-line="3" selection-end-column="25" />
               <folding>
-                <element signature="e#57#80#0" expanded="true" />
+                <element signature="e#0#19#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="threading.h" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/threading.h">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="592">
+              <caret line="42" column="7" selection-start-line="42" selection-start-column="7" selection-end-line="42" selection-end-column="7" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="player.h" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/player.h">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="480">
+              <caret line="30" column="10" selection-start-line="30" selection-start-column="10" selection-end-line="30" selection-end-column="10" />
+              <folding>
+                <element signature="e#63#85#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -205,24 +206,26 @@
         <option value="$PROJECT_DIR$/tcp-socket.cc" />
         <option value="$PROJECT_DIR$/menu-drawer.cc" />
         <option value="$PROJECT_DIR$/menu-drawer.h" />
-        <option value="$PROJECT_DIR$/threading.h" />
-        <option value="$PROJECT_DIR$/threading.cc" />
         <option value="$PROJECT_DIR$/radio-menu.h" />
         <option value="$PROJECT_DIR$/radio-menu.cc" />
         <option value="$PROJECT_DIR$/system-stream.h" />
         <option value="$PROJECT_DIR$/tcp-socket.h" />
         <option value="$PROJECT_DIR$/errors.h" />
-        <option value="$PROJECT_DIR$/audio-transmission.cc" />
-        <option value="$PROJECT_DIR$/audio-transmission.h" />
-        <option value="$PROJECT_DIR$/receiver_main.cc" />
-        <option value="$PROJECT_DIR$/CMakeLists.txt" />
         <option value="$PROJECT_DIR$/control-protocol.cc" />
         <option value="$PROJECT_DIR$/control-protocol.h" />
+        <option value="$PROJECT_DIR$/CMakeLists.txt" />
+        <option value="$PROJECT_DIR$/sender_main.cc" />
         <option value="$PROJECT_DIR$/sender.h" />
+        <option value="$PROJECT_DIR$/threading.cc" />
+        <option value="$PROJECT_DIR$/audio-transmission.h" />
+        <option value="$PROJECT_DIR$/threading.h" />
+        <option value="$PROJECT_DIR$/sender.cc" />
         <option value="$PROJECT_DIR$/udp.h" />
         <option value="$PROJECT_DIR$/udp.cc" />
-        <option value="$PROJECT_DIR$/sender.cc" />
-        <option value="$PROJECT_DIR$/sender_main.cc" />
+        <option value="$PROJECT_DIR$/player.h" />
+        <option value="$PROJECT_DIR$/audio-transmission.cc" />
+        <option value="$PROJECT_DIR$/receiver_main.cc" />
+        <option value="$PROJECT_DIR$/player.cc" />
       </list>
     </option>
   </component>
@@ -247,6 +250,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -258,11 +262,10 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="SearchEverywhereHistoryKey" value="udp.h&#9;FILE&#9;file:///home/rafal/Development/telnet-server/udp.h&#10;sender.&#9;FILE&#9;file:///home/rafal/Development/telnet-server/sender.h&#10;tcp&#9;FILE&#9;file:///home/rafal/Development/telnet-server/tcp-socket.cc&#10;thr&#9;FILE&#9;file:///home/rafal/Development/telnet-server/threading.cc&#10;thre&#9;FILE&#9;file:///home/rafal/Development/telnet-server/threading.h&#10;Byte&#9;FILE&#9;file:///home/rafal/Development/telnet-server/byte-stream.h&#10;thread&#9;FILE&#9;file:///home/rafal/Development/telnet-server/threading.h&#10;menu&#9;FILE&#9;file:///home/rafal/Development/telnet-server/menu-drawer.cc&#10;radio&#9;FILE&#9;file:///home/rafal/Development/telnet-server/radio-menu.cc&#10;sys&#9;FILE&#9;file:///home/rafal/Development/telnet-server/system-stream.h&#10;syst&#9;FILE&#9;file:///home/rafal/Development/telnet-server/system-stream.cc&#10;applica&#9;FILE&#9;file:///home/rafal/Development/telnet-server/application.cc&#10;appli&#9;FILE&#9;file:///home/rafal/Development/telnet-server/application.h&#10;text&#9;FILE&#9;file:///home/rafal/dev/telnet-server/text-screen.h" />
+    <property name="SearchEverywhereHistoryKey" value="aud&#9;FILE&#9;file:///home/rafal/Development/telnet-server/audio-transmission.h&#10;sender_ma&#9;FILE&#9;file:///home/rafal/Development/telnet-server/sender_main.cc&#10;audio&#9;FILE&#9;file:///home/rafal/Development/telnet-server/audio-transmission.h&#10;udp&#9;FILE&#9;file:///home/rafal/Development/telnet-server/udp.h&#10;thre&#9;FILE&#9;file:///home/rafal/Development/telnet-server/threading.h&#10;thread&#9;FILE&#9;file:///home/rafal/Development/telnet-server/threading.h&#10;audio-tran&#9;FILE&#9;file:///home/rafal/Development/telnet-server/audio-transmission.h&#10;udp.h&#9;FILE&#9;file:///home/rafal/Development/telnet-server/udp.h&#10;sender.&#9;FILE&#9;file:///home/rafal/Development/telnet-server/sender.h&#10;tcp&#9;FILE&#9;file:///home/rafal/Development/telnet-server/tcp-socket.cc&#10;thr&#9;FILE&#9;file:///home/rafal/Development/telnet-server/threading.cc&#10;Byte&#9;FILE&#9;file:///home/rafal/Development/telnet-server/byte-stream.h&#10;menu&#9;FILE&#9;file:///home/rafal/Development/telnet-server/menu-drawer.cc&#10;radio&#9;FILE&#9;file:///home/rafal/Development/telnet-server/radio-menu.cc&#10;sys&#9;FILE&#9;file:///home/rafal/Development/telnet-server/system-stream.h&#10;syst&#9;FILE&#9;file:///home/rafal/Development/telnet-server/system-stream.cc&#10;applica&#9;FILE&#9;file:///home/rafal/Development/telnet-server/application.cc&#10;appli&#9;FILE&#9;file:///home/rafal/Development/telnet-server/application.h&#10;text&#9;FILE&#9;file:///home/rafal/dev/telnet-server/text-screen.h" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
@@ -281,11 +284,11 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Application.sender">
-    <configuration name="Build All" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="telnet_server" RUN_TARGET_NAME="sender" EXPLICIT_BUILD_TARGET_NAME="all" />
-    <configuration name="receiver" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="telnet_server" TARGET_NAME="receiver" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="telnet_server" RUN_TARGET_NAME="sender" />
-    <configuration name="sender" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="telnet_server" TARGET_NAME="sender" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="telnet_server" RUN_TARGET_NAME="sender" />
-    <configuration name="telnet_server" type="CMakeRunConfiguration" factoryName="Application" PROGRAM_PARAMS="10001" PASS_PARENT_ENVS_2="true" PROJECT_NAME="telnet_server" TARGET_NAME="telnet_server" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="telnet_server" RUN_TARGET_NAME="sender" />
+  <component name="RunManager" selected="Application.receiver">
+    <configuration name="Build All" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="telnet_server" RUN_TARGET_NAME="receiver" EXPLICIT_BUILD_TARGET_NAME="all" />
+    <configuration name="receiver" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="telnet_server" TARGET_NAME="receiver" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="telnet_server" RUN_TARGET_NAME="receiver" />
+    <configuration name="sender" type="CMakeRunConfiguration" factoryName="Application" PROGRAM_PARAMS="-a 239.10.11.12 -P 15000 -C 10001 -p 16 -f 1024 " PASS_PARENT_ENVS_2="true" PROJECT_NAME="telnet_server" TARGET_NAME="sender" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="telnet_server" RUN_TARGET_NAME="sender" />
+    <configuration name="telnet_server" type="CMakeRunConfiguration" factoryName="Application" PROGRAM_PARAMS="10001" PASS_PARENT_ENVS_2="true" PROJECT_NAME="telnet_server" TARGET_NAME="telnet_server" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="telnet_server" RUN_TARGET_NAME="receiver" />
     <list>
       <item itemvalue="Application.Build All" />
       <item itemvalue="Application.telnet_server" />
@@ -322,60 +325,61 @@
       <workItem from="1528237801197" duration="6740000" />
       <workItem from="1528380609842" duration="7437000" />
       <workItem from="1528391068457" duration="8526000" />
-      <workItem from="1528400034437" duration="7090000" />
+      <workItem from="1528400034437" duration="23851000" />
+      <workItem from="1528478162847" duration="30369000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="235130000" />
+    <option name="totallyTimeSpent" value="282260000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-1" y="0" width="1922" height="1053" extended-state="6" />
     <editor active="true" />
     <layout>
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.20021299" />
       <window_info anchor="bottom" id="TODO" order="6" />
-      <window_info anchor="right" id="Cargo" order="3" />
-      <window_info anchor="bottom" id="Messages" order="7" weight="0.32878152" />
-      <window_info anchor="bottom" id="CMake" order="11" />
-      <window_info anchor="bottom" id="Event Log" order="9" sideWeight="0.50026953" side_tool="true" weight="0.31390592" />
+      <window_info anchor="right" id="Cargo" order="4" />
+      <window_info anchor="bottom" id="Messages" order="7" weight="0.32831" />
+      <window_info anchor="bottom" id="CMake" order="11" weight="0.32983193" />
+      <window_info anchor="bottom" id="Event Log" order="9" sideWeight="0.50026953" side_tool="true" weight="0.3130252" />
       <window_info anchor="bottom" id="Version Control" order="10" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.49973047" visible="true" weight="0.31407562" />
-      <window_info anchor="bottom" id="Terminal" order="8" />
-      <window_info content_ui="combo" id="Project" order="0" weight="0.20052083" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.49973047" visible="true" weight="0.32938644" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
+      <window_info anchor="bottom" id="Terminal" order="8" weight="0.32938644" />
       <window_info id="Favorites" order="2" side_tool="true" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.39915967" />
-      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.39827773" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="3" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
-      <window_info anchor="right" id="Commander" order="0" weight="0.4" />
-      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="right" id="Commander" order="1" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="2" weight="0.25" />
       <window_info anchor="bottom" id="Statistic" order="12" weight="0.32924336" />
-      <window_info anchor="right" x="0" y="0" width="430" height="853" id="Documentation" side_tool="true" weight="0.3296875" />
+      <window_info anchor="right" x="0" y="0" width="430" height="853" id="Documentation" order="0" side_tool="true" weight="0.3296875" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32983193" />
     </layout>
     <layout-to-restore>
+      <window_info anchor="bottom" id="CMake" order="11" weight="0.32983193" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="3" weight="0.25" />
-      <window_info anchor="right" id="Ant Build" order="2" weight="0.25" />
-      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49973047" visible="true" weight="0.31407562" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="right" id="Cargo" order="4" />
-      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.20052083" />
+      <window_info content_ui="combo" id="Project" order="0" weight="0.20052083" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="right" id="Commander" order="1" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="2" weight="0.25" />
       <window_info anchor="bottom" id="TODO" order="6" />
-      <window_info anchor="bottom" id="Find" order="1" weight="0.32983193" />
+      <window_info anchor="bottom" id="Version Control" order="10" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.49973047" visible="true" weight="0.32938644" />
       <window_info anchor="bottom" id="Statistic" order="12" weight="0.32924336" />
-      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.32983193" />
       <window_info anchor="right" x="0" y="0" width="430" height="853" id="Documentation" order="0" side_tool="true" weight="0.3296875" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.39915967" />
-      <window_info anchor="bottom" id="Messages" order="7" weight="0.32878152" />
       <window_info anchor="bottom" id="Terminal" order="8" />
-      <window_info anchor="bottom" id="Event Log" order="9" sideWeight="0.50026953" side_tool="true" weight="0.31390592" />
-      <window_info anchor="bottom" id="Version Control" order="10" />
+      <window_info anchor="bottom" id="Event Log" order="9" sideWeight="0.50026953" side_tool="true" weight="0.3130252" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Message" order="0" />
-      <window_info anchor="bottom" id="CMake" order="11" />
+      <window_info anchor="bottom" id="Messages" order="7" weight="0.32831" />
       <window_info id="Favorites" order="2" side_tool="true" />
     </layout-to-restore>
   </component>
@@ -387,7 +391,7 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="25" />
+      <option name="time" value="33" />
     </breakpoint-manager>
     <watches-manager>
       <configuration name="CMakeRunConfiguration">
@@ -405,56 +409,6 @@
     </expressions>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/tcp-socket.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="756">
-          <caret line="42" column="41" selection-start-line="42" selection-start-column="41" selection-end-line="42" selection-end-column="41" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/.gitignore">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="648">
-          <caret line="36" selection-start-line="36" selection-end-line="36" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/text-screen.cc">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="18">
-          <caret line="1" column="23" selection-start-line="1" selection-start-column="23" selection-end-line="1" selection-end-column="23" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/standard-stream.h" />
-    <entry file="file://$PROJECT_DIR$/menu.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1296">
-          <caret line="81" column="53" selection-start-line="81" selection-start-column="53" selection-end-line="81" selection-end-column="53" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/terminal.cc">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="480">
-          <caret line="30" column="50" selection-start-line="30" selection-start-column="50" selection-end-line="30" selection-end-column="50" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/menu.cc">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="560">
-          <caret line="35" selection-start-line="35" selection-end-line="35" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/terminal.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="329">
-          <caret line="22" column="41" selection-start-line="22" selection-start-column="41" selection-end-line="22" selection-end-column="41" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/main.cpp">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="80">
@@ -537,20 +491,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/threading.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="301">
-          <caret line="35" column="6" selection-start-line="35" selection-start-column="6" selection-end-line="35" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/threading.cc">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="288">
-          <caret line="18" column="61" selection-start-line="18" selection-start-column="61" selection-end-line="18" selection-end-column="61" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/byte-stream.h">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="144">
@@ -614,27 +554,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/audio-transmission.cc">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1008">
-          <caret line="63" column="49" selection-start-line="63" selection-start-column="49" selection-end-line="63" selection-end-column="49" />
-          <folding>
-            <element signature="e#0#19#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/errors.h">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="96">
           <caret line="6" column="36" selection-start-line="6" selection-start-column="36" selection-end-line="6" selection-end-column="36" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/CMakeLists.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="144">
-          <caret line="9" selection-start-line="9" selection-end-line="9" />
         </state>
       </provider>
     </entry>
@@ -652,10 +575,103 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/receiver_main.cc">
+    <entry file="file://$PROJECT_DIR$/tcp-socket.cc">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-8">
-          <caret line="17" column="48" selection-start-line="17" selection-start-column="48" selection-end-line="17" selection-end-column="48" />
+        <state relative-caret-position="109">
+          <caret line="21" column="5" selection-start-line="21" selection-start-column="5" selection-end-line="21" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/CMakeLists.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="96">
+          <caret line="6" column="22" selection-start-line="6" selection-start-column="22" selection-end-line="6" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///usr/include/c++/8.1.0/bits/char_traits.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2098">
+          <caret line="319" selection-start-line="319" selection-end-line="319" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///usr/include/c++/8.1.0/bits/stl_list.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="186">
+          <caret line="1121" selection-start-line="1121" selection-end-line="1121" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///usr/include/c++/8.1.0/ext/new_allocator.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1712">
+          <caret line="110" selection-start-line="110" selection-end-line="110" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///usr/include/c++/8.1.0/bits/basic_string.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="210">
+          <caret line="421" selection-start-line="421" selection-end-line="421" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/threading.cc">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-65">
+          <caret line="18" column="61" selection-start-line="18" selection-start-column="61" selection-end-line="18" selection-end-column="61" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sender.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="143">
+          <caret line="32" column="30" selection-start-line="32" selection-start-column="30" selection-end-line="32" selection-end-column="30" />
+          <folding>
+            <element signature="e#63#81#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///usr/include/c++/8.1.0/thread">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="178">
+          <caret line="117" column="6" selection-start-line="117" selection-start-column="6" selection-end-line="117" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///usr/include/c++/8.1.0/optional">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="170">
+          <caret line="1259" selection-start-line="1259" selection-end-line="1259" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/udp.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="433">
+          <caret line="91" column="18" selection-start-line="91" selection-start-column="18" selection-end-line="91" selection-end-column="18" />
+          <folding>
+            <element signature="e#57#80#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sender_main.cc">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1199">
+          <caret line="95" column="39" selection-start-line="95" selection-start-column="39" selection-end-line="95" selection-end-column="39" />
+          <folding>
+            <element signature="e#0#19#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sender.cc">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="383">
+          <caret line="98" column="22" lean-forward="true" selection-start-line="98" selection-start-column="22" selection-end-line="98" selection-end-column="22" />
           <folding>
             <element signature="e#0#19#0" expanded="true" />
           </folding>
@@ -664,62 +680,62 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/audio-transmission.h">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-307">
-          <caret line="20" column="30" selection-start-line="20" selection-start-column="30" selection-end-line="20" selection-end-column="30" />
+        <state relative-caret-position="368">
+          <caret line="23" column="43" lean-forward="true" selection-start-line="23" selection-start-column="43" selection-end-line="23" selection-end-column="43" />
           <folding>
             <element signature="e#87#105#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/sender.h">
+    <entry file="file://$PROJECT_DIR$/audio-transmission.cc">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="248">
-          <caret line="22" column="8" selection-start-line="22" selection-start-column="8" selection-end-line="22" selection-end-column="8" />
-          <folding>
-            <element signature="e#63#81#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/udp.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="768">
-          <caret line="48" column="23" selection-start-line="48" selection-start-column="23" selection-end-line="48" selection-end-column="23" />
-          <folding>
-            <element signature="e#57#80#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/udp.cc">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="240">
-          <caret line="15" column="42" selection-start-line="15" selection-start-column="42" selection-end-line="15" selection-end-column="42" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/tcp-socket.cc">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="109">
-          <caret line="21" column="5" selection-start-line="21" selection-start-column="5" selection-end-line="21" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/sender.cc">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="80">
-          <caret line="5" column="19" selection-start-line="5" selection-start-column="19" selection-end-line="5" selection-end-column="19" />
+        <state relative-caret-position="335">
+          <caret line="77" column="103" selection-start-line="77" selection-start-column="103" selection-end-line="77" selection-end-column="103" />
           <folding>
             <element signature="e#0#19#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/sender_main.cc">
+    <entry file="file://$PROJECT_DIR$/udp.cc">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-339">
-          <caret line="8" column="19" selection-start-line="8" selection-start-column="19" selection-end-line="8" selection-end-column="19" />
+        <state relative-caret-position="95">
+          <caret line="47" column="44" selection-start-line="47" selection-start-column="44" selection-end-line="47" selection-end-column="44" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/threading.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="592">
+          <caret line="42" column="7" selection-start-line="42" selection-start-column="7" selection-end-line="42" selection-end-column="7" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/player.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="480">
+          <caret line="30" column="10" selection-start-line="30" selection-start-column="10" selection-end-line="30" selection-end-column="10" />
+          <folding>
+            <element signature="e#63#85#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/player.cc">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="48">
+          <caret line="3" column="25" selection-start-line="3" selection-start-column="25" selection-end-line="3" selection-end-column="25" />
+          <folding>
+            <element signature="e#0#19#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/receiver_main.cc">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="383">
+          <caret line="37" selection-start-line="37" selection-end-line="37" />
           <folding>
             <element signature="e#0#19#0" expanded="true" />
           </folding>

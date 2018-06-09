@@ -42,6 +42,7 @@ class MutexValue {
 
 public:
     explicit MutexValue(const T &value): value(value) {}
+    explicit MutexValue(T &&value): value(std::move(value)) {}
 
     MutexValue(): value() {};
 
