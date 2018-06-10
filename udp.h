@@ -135,7 +135,6 @@ namespace udp {
 
     public:
         explicit GroupReceiver(const Address &address): fd(socket(AF_INET, SOCK_DGRAM, 0)), address(address) {
-            std::cerr << "r con" << std::endl;
             if (fd < 0) throw SocketException("Could not create UDP socket.");
             sockaddr_in local_address;
             mreq.imr_interface.s_addr = htonl(INADDR_ANY);
@@ -143,13 +142,11 @@ namespace udp {
 //            mreq.imr_multiaddr = address.ptr()->sin_addr;
             if (setsockopt(fd, IPPROTO_IP, IP_ADD_MEMBERSHIP, (void*)&mreq, sizeof(ip_mreq)) < 0)
                 throw SocketException("Error in setsockopt - add membership.");
-            std::cerr << "set" << std::endl;
             local_address.sin_family = AF_INET;
             local_address.sin_addr.s_addr = htonl(INADDR_ANY);
             local_address.sin_port = address.ptr()->sin_port;
             if (bind(fd, (struct sockaddr *)&local_address, sizeof local_address) < 0)
                 throw SocketException("Error in bind.");
-            std::cerr << "bind" << std::endl;
 
         }
 

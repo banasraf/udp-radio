@@ -36,13 +36,15 @@ struct Configuration {
     uint16_t ui_port;
     size_t bsize;
     long rtime;
+    std::string name;
 
     Configuration():
             control_port(DEFAULT_CONTROL_PORT),
             discover_ip("255.255.255.255"),
             ui_port(DEFAULT_UI_PORT),
             bsize(DEFAULT_BSIZE),
-            rtime(DEFAULT_RTIME) {}
+            rtime(DEFAULT_RTIME),
+            name() {}
 
 };
 
@@ -72,5 +74,7 @@ void dataListener(const std::optional<udp::Address> &channel);
 void discoverer();
 
 void dataOutput();
+
+void missingPacketsManager();
 
 #endif //TELNET_SERVER_PLAYER_H

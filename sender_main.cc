@@ -7,6 +7,7 @@
 #include "audio-transmission.h"
 #include "udp.h"
 #include "sender.h"
+#include "control-protocol.h"
 
 using namespace std;
 
@@ -79,6 +80,7 @@ void getConfiguration(int argc, char *argv[]) {
             if (configuration()->rtime <= 0) throw std::exception();
         }
         if (!name.empty()) {
+            if (name.size() > ctrl::MAX_NAME_LENGTH) throw std::exception();
             configuration()->name = name;
         }
     } catch (...) {

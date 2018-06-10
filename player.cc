@@ -162,7 +162,7 @@ void sendLookup(udp::Broadcaster &sock) {
 const unsigned LOOKUP_INTERVAL_SECONDS = 5;
 const long REPLY_TIMEOUT_MILLISECONDS = 200;
 
-uint16_t validatePort(const std::string &port) {
+static uint16_t validatePort(const std::string &port) {
     unsigned long ul = stoul(port);
     if (ul >= std::numeric_limits<uint16_t>::min() && ul <= std::numeric_limits<uint16_t>::max()) {
         return (uint16_t) ul;
@@ -198,23 +198,18 @@ std::optional<RadioStation> parseReply(const std::vector<uint8_t> &bytes) {
     return RadioStation(*addr, name);
 }
 
-void updateStation(LockedValue<std::list<RadioStation>> &list_lock, const RadioStation &station) {
-    for (auto &rs : list_lock.get()) {
-        if (rs.channel == station.channel) {
-            rs.name = station.name;
-            rs.lookups = 0;
-        };
-    }
+void removeStation(LockedValue<std::list<RadioStation>> &list_lock, const RadioStation &station) {
+    list_lock->remove_if([&](const RadioStation &rs) { return rs.channel == station.channel; });
 }
 
-void insertStation(LockedValue<std::list<RadioStation>> &list_lock, const RadioStation &station) {
+void insertStation(LockedValue<std::list<RadioStation>> &list_lock, const RadioStation &station, bool is_reinsert) {
     auto where_to_insert = list_lock->begin();
     while (where_to_insert != list_lock->end()) {
         if (station.name > where_to_insert->name) break;
         ++where_to_insert;
     }
     list_lock->insert(where_to_insert, station);
-    if (list_lock->size() == 1)
+    if (list_lock->size() == 1 && !is_reinsert)
         changeChannel(station.channel);
     setNewMenu(list_lock);
 }
@@ -229,10 +224,9 @@ void handleReply(const std::vector<uint8_t> &bytes) {
             [&](const RadioStation &rs) { return rs.channel == station->channel; }
             );
     if (present) {
-        updateStation(list_lock, *station);
-        return;
+        removeStation(list_lock, *station);
     }
-    insertStation(list_lock, *station);
+    insertStation(list_lock, *station, present);
 }
 
 void discoverer() {
@@ -246,6 +240,32 @@ void discoverer() {
             if (!ctrl::controlPacketBytesValidation(dgram.data)) continue;
             handleReply(dgram.data);
         }
+    }
+}
+
+std::string rexmitMessage(const std::list<uint64_t> &packets) {
+    if (packets.empty()) return "";
+    std::stringstream ss;
+    ss << ctrl::REXMIT_HEADER << " ";
+    for (auto it = packets.begin(); it != std::prev(packets.end()); ++it) {
+        ss << *it << ',';
+    }
+    ss << packets.back() << std::endl;
+    return ss.str();
+}
+
+void missingPacketsManager() {
+    udp::Broadcaster sock(udp::Address(configuration().discover_ip, configuration().control_port));
+    while (true) {
+        std::list<uint64_t> packets_list;
+        {
+            auto _lock = session_info().missing_packets.lock();
+            packets_list = _lock.get();
+            _lock->clear();
+        }
+        auto message = rexmitMessage(packets_list);
+        if (!message.empty()) sock.send(message);
+        std::this_thread::sleep_for(std::chrono::milliseconds(configuration().rtime));
     }
 }
 
