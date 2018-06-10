@@ -44,14 +44,18 @@ static bool channelIsCurrent(const udp::Address &channel) {
 void dataListener(const std::optional<udp::Address> &_channel) {
     if (!_channel)
         return;
+    std::cerr << "im in" << std::endl;
     udp::Address channel = *_channel;
     udp::GroupReceiver receiver(channel);
     while (channelIsCurrent(channel)) {
+        std::cerr << "Start" << std::endl;
         auto message = receiver.receive();
+        std::cerr << "got" << std::endl;
         auto packet_op = AudioPacket::fromBytes(message);
         if (!packet_op) continue;
         auto packet = *packet_op;
-        if (session_info().initiated.lock().get()) {
+        auto initiated = session_info().initiated.lock().get();
+        if (initiated) {
             if (packet.session_id < session_info().session_id.lock().get()) continue;
             if (packet.session_id == session_info().session_id.lock().get()) {
                 putPacket(packet);
