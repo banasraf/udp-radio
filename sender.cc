@@ -16,7 +16,7 @@ void streamer() {
         packet_fifo()->push(*packet);
         sock.send(packet->toBytes());
     }
-
+    running().lock().get() = false;
 }
 
 std::unique_ptr<Configuration> &configuration() {
@@ -57,11 +57,15 @@ void handle_rexmit(const udp::Address &caller, const std::string &packets_list) 
     orders_lock->splice(orders_lock->end(), new_orders);
 }
 
+static const long CONTROLLER_SOCET_TIMEOUT = 200;
+
 void controller() {
     udp::Socket sock;
     sock.bindToPort(configuration()->control_port);
     while (true) {
-        auto datagram = sock.receive();
+        if (!running().lock().get()) break;
+        auto datagram = sock.receive(CONTROLLER_SOCET_TIMEOUT);
+        if (datagram.data.empty()) continue;
         if (!ctrl::controlPacketBytesValidation(datagram.data))
             continue;
         auto author = datagram.address;
@@ -111,6 +115,7 @@ void resend_packets(udp::Socket &sock) {
 void resender() {
     udp::Socket sock;
     while (true) {
+        if (!running().lock().get()) break;
         resend_packets(sock);
         std::this_thread::sleep_for(std::chrono::microseconds(configuration()->rtime));
     }
@@ -119,4 +124,9 @@ void resender() {
 MutexValue<rexmit_orders_t> &rexmit_orders() {
     static MutexValue<rexmit_orders_t> *orders = new MutexValue<rexmit_orders_t>(rexmit_orders_t());
     return *orders;
+}
+
+MutexValue<bool> &running() {
+    static auto *run = new MutexValue<bool>(true);
+    return *run;
 }

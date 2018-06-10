@@ -78,7 +78,14 @@ void eventLoop() {
                     break;
                 }
                 case ApplicationEventType::CHANGE_CHANNEL: {
-                    players.push_back(std::async([](){ dataListener(current_channel().lock().get()); }));
+                    players.push_back(std::async([](){
+                        std::optional<udp::Address> channel;
+                        {
+                            auto _lock = current_channel().lock();
+                            channel = _lock.get();
+                        }
+                        dataListener(channel);
+                    }));
                     break;
                 }
                 case ApplicationEventType::STOP: {

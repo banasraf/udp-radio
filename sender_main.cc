@@ -96,4 +96,7 @@ int main(int argc, char *argv[]) {
     std::thread controller_thread(controller);
     std::thread resender_thread(resender);
     streamer();
+    controller_thread.join();
+    resender_thread.join();
+    return 0;
 }

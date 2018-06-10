@@ -43,6 +43,7 @@ using rexmit_orders_t = std::list<std::pair<uint64_t, std::string>>;
 
 MutexValue<rexmit_orders_t> &rexmit_orders();
 
+MutexValue<bool> &running();
 
 void streamer();
 

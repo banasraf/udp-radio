@@ -47,6 +47,7 @@ int main(int argc, char **argv) {
         }
     });
     auto discoverer_handle = async(discoverer);
+    auto data_output = async(dataOutput);
     eventLoop();
     return 0;
 }

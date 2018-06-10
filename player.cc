@@ -33,8 +33,12 @@ static void resetSession(const AudioPacket &initial_packet) {
 }
 
 static bool channelIsCurrent(const udp::Address &channel) {
-    auto _lock = current_channel().lock();
-    return _lock->has_value() && *_lock.get() == channel;
+    bool result;
+    {
+        auto _lock = current_channel().lock();
+        result =  _lock->has_value() && *_lock.get() == channel;
+    }
+    return result;
 }
 
 void dataListener(const std::optional<udp::Address> &_channel) {
@@ -96,7 +100,6 @@ void setNewMenu(LockedValue<std::list<RadioStation>> &_lock) {
     if (_lock->empty()) {
         radio_menu().lock()->setListing(nullptr);
         event_stream().write(MenuEvent(ApplicationEventType::MENU_CHANGE));
-        changeChannel({});
         return;
     }
     std::vector<menu::Option> options;
@@ -120,7 +123,6 @@ void sendLookup(udp::Broadcaster &sock) {
     bool to_delete = false;
     for (auto &it : _lock.get()) {
         if (++it.lookups >= MAX_LOOKUPS) to_delete = true;
-        std::cerr << it.lookups << std::endl;
     }
     if (to_delete) {
         std::list<RadioStation> new_list;
@@ -131,6 +133,20 @@ void sendLookup(udp::Broadcaster &sock) {
                 [](const RadioStation &rs) { return rs.lookups < MAX_LOOKUPS; }
                 );
         _lock.get() = new_list;
+
+        {
+            auto ch_lock = current_channel().lock();
+            bool deleted = !std::any_of(
+                    new_list.begin(),
+                    new_list.end(),
+                    [&](const RadioStation &rs) { return rs.channel == ch_lock.get(); }
+                    );
+            if (deleted) {
+                ch_lock.get() = (new_list.empty()) ? std::optional<udp::Address>() : new_list.front().channel;
+            }
+            event_stream().write(MenuEvent(ApplicationEventType::CHANGE_CHANNEL));
+        }
+
         setNewMenu(_lock);
     }
 }
@@ -190,9 +206,9 @@ void insertStation(LockedValue<std::list<RadioStation>> &list_lock, const RadioS
         ++where_to_insert;
     }
     list_lock->insert(where_to_insert, station);
-    setNewMenu(list_lock);
     if (list_lock->size() == 1)
         changeChannel(station.channel);
+    setNewMenu(list_lock);
 }
 
 void handleReply(const std::vector<uint8_t> &bytes) {
@@ -213,7 +229,6 @@ void handleReply(const std::vector<uint8_t> &bytes) {
 
 void discoverer() {
     udp::Broadcaster sock(udp::Address(configuration().discover_ip, configuration().control_port));
-//    sock.setTimeout(REPLY_TIMEOUT_MILLISECONDS);
     while (true) {
         sendLookup(sock);
         auto timer = std::chrono::system_clock::now();

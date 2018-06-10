@@ -89,6 +89,8 @@ namespace udp {
 
         Datagram receive();
 
+        Datagram receive(long timeout);
+
         void bindToPort(uint16_t port);
 
         ~Socket();
@@ -110,12 +112,6 @@ namespace udp {
             optval = TTL_VALUE;
             if (setsockopt(fd, IPPROTO_IP, IP_MULTICAST_TTL, (void*)&optval, sizeof optval) < 0)
                 throw SocketException("Error  in setsockopt - multicast ttl.");
-//            optval = 0;
-//            if (setsockopt(fd, SOL_IP, IP_MULTICAST_LOOP, (void*)&optval, sizeof optval) < 0)
-//                throw SocketException("Error in setsockopt - loop.");
-
-//            if (connect(fd, (sockaddr *) address.ptr(), sizeof(sockaddr_in)) < 0)
-//                throw SocketException("Error while connecting broadcaster.");
 
         }
 
