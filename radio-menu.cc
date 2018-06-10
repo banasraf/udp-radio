@@ -52,20 +52,18 @@ void sendMenu() {
 
 void eventLoop() {
     bool running = true;
-    std::list<std::future<void>> players;
+    std::unique_ptr<std::future<void>> players;
     while (running) {
         auto event = event_stream().read();
         if (event.tag == MenuEvent::Tag::USER_EVENT) {
             switch (event.key) {
                 case terminal::ActionKeyType::ARROW_DOWN: {
                     radio_menu().lock()->down();
-                    radio_menu().lock()->enter();
                     sendMenu();
                     break;
                 }
                 case terminal::ActionKeyType::ARROW_UP: {
                     radio_menu().lock()->up();
-                    radio_menu().lock()->enter();
                     sendMenu();
                     break;
                 }
@@ -78,7 +76,9 @@ void eventLoop() {
                     break;
                 }
                 case ApplicationEventType::CHANGE_CHANNEL: {
-                    players.push_back(std::async([](){
+                    players = std::make_unique<std::future<void>>();
+                    session_info().initiated.lock().get() = false;
+                    players = std::make_unique<std::future<void>>(std::async([](){
                         std::optional<udp::Address> channel;
                         {
                             auto _lock = current_channel().lock();

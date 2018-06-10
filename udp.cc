@@ -112,6 +112,10 @@ udp::Datagram udp::Broadcaster::receive(long timeout_ms) {
     return Datagram(udp::Address(sockaddr_in()), "");
 }
 
+udp::Broadcaster::~Broadcaster() {
+    close(fd);
+}
+
 std::vector<uint8_t> udp::GroupReceiver::receive() {
     std::vector<uint8_t> buffer(Socket::MAX_DATAGRAM_SIZE);
     ssize_t count = read(fd, buffer.data(), Socket::MAX_DATAGRAM_SIZE);
@@ -119,4 +123,21 @@ std::vector<uint8_t> udp::GroupReceiver::receive() {
         throw IOException("Error while reading from group address.");
     buffer.resize((unsigned long) count);
     return buffer;
+}
+
+std::vector<uint8_t> udp::GroupReceiver::receive(long timeout_ms) {
+    timeval timeout;
+    timeout.tv_sec = timeout_ms / 1000;
+    timeout.tv_usec = timeout_ms % 1000 * 1000;
+    fd_set set;
+    FD_ZERO(&set);
+    FD_SET(fd, &set);
+    int sel = select(FD_SETSIZE, &set, nullptr, nullptr, &timeout);
+    if (sel > 0) return receive();
+    return {};
+}
+
+udp::GroupReceiver::~GroupReceiver() {
+    setsockopt(fd, IPPROTO_IP, IP_DROP_MEMBERSHIP, (void*)&mreq, sizeof(ip_mreq));
+    close(fd);
 }

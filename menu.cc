@@ -7,6 +7,7 @@ void menu::Menu::up() {
     if (current_listing == nullptr) return;
     if (getActiveIndex() > 0) {
         --current_listing->active_index;
+        enter();
     }
 }
 
@@ -14,6 +15,7 @@ void menu::Menu::down() {
     if (current_listing == nullptr) return;
     if (getActiveIndex() < current_listing->listing.size() - 1) {
         ++current_listing->active_index;
+        enter();
     }
 }
 

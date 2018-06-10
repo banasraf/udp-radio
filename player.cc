@@ -16,6 +16,7 @@ Configuration &configuration() {
 
 static void putPacket(const AudioPacket &packet) {
     if (session_info().psize.lock().get() == packet.data.size()) {
+        std::cerr << packet.first_byte_num << std::endl;
         session_info().buffer.lock().get()->push(packet);
     }
 }
@@ -44,15 +45,17 @@ static bool channelIsCurrent(const udp::Address &channel) {
 void dataListener(const std::optional<udp::Address> &_channel) {
     if (!_channel)
         return;
-    std::cerr << "im in" << std::endl;
     udp::Address channel = *_channel;
+    std::cerr << "listener " << channel.getIP() << ":" << channel.getPort() << std::endl;
     udp::GroupReceiver receiver(channel);
+    std::cerr << "receiver created " << channel.getIP() << ":" << channel.getPort() << std::endl;
     while (channelIsCurrent(channel)) {
-        std::cerr << "Start" << std::endl;
-        auto message = receiver.receive();
-        std::cerr << "got" << std::endl;
+        auto message = receiver.receive(100);
+        if (message.empty()) continue;
+        std::cerr << "received" << std::endl;
         auto packet_op = AudioPacket::fromBytes(message);
         if (!packet_op) continue;
+        std::cerr << "formatted" << std::endl;
         auto packet = *packet_op;
         auto initiated = session_info().initiated.lock().get();
         if (initiated) {
@@ -97,6 +100,7 @@ const unsigned MAX_LOOKUPS = 4;
 void changeChannel(const std::optional<udp::Address> &address) {
     current_channel().lock().get() = address;
     session_info().initiated.lock().get() = false;
+
     event_stream().write(MenuEvent(ApplicationEventType::CHANGE_CHANNEL));
 }
 
@@ -147,8 +151,8 @@ void sendLookup(udp::Broadcaster &sock) {
                     );
             if (deleted) {
                 ch_lock.get() = (new_list.empty()) ? std::optional<udp::Address>() : new_list.front().channel;
+                event_stream().write(MenuEvent(ApplicationEventType::CHANGE_CHANNEL));
             }
-            event_stream().write(MenuEvent(ApplicationEventType::CHANGE_CHANNEL));
         }
 
         setNewMenu(_lock);
