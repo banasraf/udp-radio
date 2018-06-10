@@ -82,10 +82,11 @@ class AudioBuffer {
     MutexValue<std::list<uint64_t>> &missing_packets;
     uint64_t lowest_fbn;
     bool ready;
+    uint64_t last_fbn;
 
-    void dropPacket();
+    void dropPacket(LockedValue<std::list<uint64_t>> &_lock);
 
-    void insertPacket(const std::optional<AudioPacket> &ap);
+    void insertPacket(const std::optional<AudioPacket> &ap, LockedValue<std::list<uint64_t>> &_lock);
 
     void putMissing(const AudioPacket &ap);
 
@@ -96,7 +97,7 @@ public:
             packets({initial_packet}),
             missing_packets(missing_packets),
             lowest_fbn(initial_packet.first_byte_num),
-            ready(false) {}
+            ready(false), last_fbn(initial_packet.first_byte_num) {}
 
     void push(const AudioPacket &ap);
 

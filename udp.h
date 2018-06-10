@@ -74,7 +74,7 @@ namespace udp {
     class Socket {
 
     public:
-        static const size_t MAX_DATAGRAM_SIZE = 8192;
+        static const size_t MAX_DATAGRAM_SIZE = 32 * 1024;
 
     private:
         int fd;
@@ -139,7 +139,6 @@ namespace udp {
             sockaddr_in local_address;
             mreq.imr_interface.s_addr = htonl(INADDR_ANY);
             inet_aton(address.getIP().c_str(), &mreq.imr_multiaddr);
-//            mreq.imr_multiaddr = address.ptr()->sin_addr;
             if (setsockopt(fd, IPPROTO_IP, IP_ADD_MEMBERSHIP, (void*)&mreq, sizeof(ip_mreq)) < 0)
                 throw SocketException("Error in setsockopt - add membership.");
             local_address.sin_family = AF_INET;

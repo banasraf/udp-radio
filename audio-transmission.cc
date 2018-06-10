@@ -87,25 +87,29 @@ void AudioBuffer::push(const AudioPacket &ap) {
     if (ap.first_byte_num <= packets.back()->first_byte_num)
         return;
 
+
+    auto _lock = missing_packets.lock();
     for (uint64_t fbn = packets.back()->first_byte_num + psize; fbn < ap.first_byte_num; fbn += psize) {
-        insertPacket({});
+        insertPacket({}, _lock);
+        _lock->push_back(fbn);
         missing_map[fbn] = packets.end();
     }
-    insertPacket(ap);
+
+    insertPacket(ap, _lock);
     if (!ready && packets.size() >= 3 * size / 4) ready = true;
 }
 
-void AudioBuffer::insertPacket(const std::optional<AudioPacket> &ap) {
+void AudioBuffer::insertPacket(const std::optional<AudioPacket> &ap, LockedValue<std::list<uint64_t>> &_lock) {
     if (packets.size() == size) {
-        dropPacket();
+        dropPacket(_lock);
     }
     packets.push_back(ap);
 }
 
-void AudioBuffer::dropPacket() {
+void AudioBuffer::dropPacket(LockedValue<std::list<uint64_t>> &_lock) {
     missing_map.erase(lowest_fbn);
     packets.pop_front();
-    missing_packets.lock()->remove(lowest_fbn);
+    _lock->remove(lowest_fbn);
     lowest_fbn += psize;
 }
 
@@ -118,7 +122,8 @@ void AudioBuffer::putMissing(const AudioPacket &ap) {
 std::optional<AudioPacket> AudioBuffer::pop() {
     if (packets.empty()) return {};
     auto packet = packets.front();
-    dropPacket();
+    auto _lock = missing_packets.lock();
+    dropPacket(_lock);
     return packet;
 }
 

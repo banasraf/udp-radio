@@ -91,12 +91,6 @@ void getConfiguration(int argc, char *argv[]) {
 
 int main(int argc, char *argv[]) {
 
-
-//    unique_ptr<future<void>> f = make_unique<future<void>>(async([](){while(true) {} }));
-//
-//    f = unique_ptr<future<void>>(nullptr);
-//    f = make_unique<future<void>>(async([](){ cout << "F" << endl; }));
-//
     getConfiguration(argc, argv);
     packet_fifo() =
             std::make_unique<PacketFifo>(configuration()->fsize / configuration()->psize, configuration()->psize);

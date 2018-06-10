@@ -16,7 +16,6 @@ Configuration &configuration() {
 
 static void putPacket(const AudioPacket &packet) {
     if (session_info().psize.lock().get() == packet.data.size()) {
-        std::cerr << packet.first_byte_num << std::endl;
         session_info().buffer.lock().get()->push(packet);
     }
 }
@@ -46,16 +45,12 @@ void dataListener(const std::optional<udp::Address> &_channel) {
     if (!_channel)
         return;
     udp::Address channel = *_channel;
-    std::cerr << "listener " << channel.getIP() << ":" << channel.getPort() << std::endl;
     udp::GroupReceiver receiver(channel);
-    std::cerr << "receiver created " << channel.getIP() << ":" << channel.getPort() << std::endl;
     while (channelIsCurrent(channel)) {
         auto message = receiver.receive(100);
         if (message.empty()) continue;
-        std::cerr << "received" << std::endl;
         auto packet_op = AudioPacket::fromBytes(message);
         if (!packet_op) continue;
-        std::cerr << "formatted" << std::endl;
         auto packet = *packet_op;
         auto initiated = session_info().initiated.lock().get();
         if (initiated) {
@@ -171,6 +166,11 @@ static uint16_t validatePort(const std::string &port) {
     }
 }
 
+static std::string triml(const std::string &str) {
+    auto origin = std::find_if(str.begin(), str.end(), [](char c){ return !std::isspace(c); });
+    return std::string(origin, str.end());
+}
+
 std::optional<RadioStation> parseReply(const std::vector<uint8_t> &bytes) {
     std::stringstream ss(std::string(bytes.begin(), bytes.end()));
     std::string header;
@@ -193,6 +193,7 @@ std::optional<RadioStation> parseReply(const std::vector<uint8_t> &bytes) {
     }
     std::string name;
     std::getline(ss, name);
+    name = triml(name);
     if (name.size() > ctrl::MAX_NAME_LENGTH || name.empty()) return {};
 
     return RadioStation(*addr, name);
@@ -202,15 +203,16 @@ void removeStation(LockedValue<std::list<RadioStation>> &list_lock, const RadioS
     list_lock->remove_if([&](const RadioStation &rs) { return rs.channel == station.channel; });
 }
 
-void insertStation(LockedValue<std::list<RadioStation>> &list_lock, const RadioStation &station, bool is_reinsert) {
+void insertStation(LockedValue<std::list<RadioStation>> &list_lock, const RadioStation &station) {
     auto where_to_insert = list_lock->begin();
     while (where_to_insert != list_lock->end()) {
         if (station.name > where_to_insert->name) break;
         ++where_to_insert;
     }
     list_lock->insert(where_to_insert, station);
-    if (list_lock->size() == 1 && !is_reinsert || station.name == configuration().name)
+    if ((list_lock->size() == 1 && !channelIsCurrent(station.channel)) || station.name == configuration().name) {
         changeChannel(station.channel);
+    }
     setNewMenu(list_lock);
 }
 
@@ -226,7 +228,7 @@ void handleReply(const std::vector<uint8_t> &bytes) {
     if (present) {
         removeStation(list_lock, *station);
     }
-    insertStation(list_lock, *station, present);
+    insertStation(list_lock, *station);
 }
 
 void discoverer() {
@@ -263,7 +265,7 @@ void missingPacketsManager() {
             packets_list = _lock.get();
             _lock->clear();
         }
-        auto message = rexmitMessage(packets_list);
+        auto message = rexmitMessage(packets_list);;
         if (!message.empty()) sock.send(message);
         std::this_thread::sleep_for(std::chrono::milliseconds(configuration().rtime));
     }
