@@ -193,7 +193,7 @@ std::optional<RadioStation> parseReply(const std::vector<uint8_t> &bytes) {
     }
     std::string name;
     std::getline(ss, name);
-    if (name.size() > ctrl::MAX_NAME_LENGTH) return {};
+    if (name.size() > ctrl::MAX_NAME_LENGTH || name.empty()) return {};
 
     return RadioStation(*addr, name);
 }
@@ -209,7 +209,7 @@ void insertStation(LockedValue<std::list<RadioStation>> &list_lock, const RadioS
         ++where_to_insert;
     }
     list_lock->insert(where_to_insert, station);
-    if (list_lock->size() == 1 && !is_reinsert)
+    if (list_lock->size() == 1 && !is_reinsert || station.name == configuration().name)
         changeChannel(station.channel);
     setNewMenu(list_lock);
 }
