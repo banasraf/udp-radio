@@ -1,11 +1,17 @@
 #include <iostream>
+#include <sstream>
 #include "player.h"
-
-size_t BUFFER_SIZE = 1024;
+#include "control-protocol.h"
+#include "radio-menu.h"
 
 SessionInfo &session_info() {
     static auto *session = new SessionInfo;
     return *session;
+}
+
+Configuration &configuration() {
+    static auto *conf = new Configuration;
+    return *conf;
 }
 
 static void putPacket(const AudioPacket &packet) {
@@ -16,8 +22,11 @@ static void putPacket(const AudioPacket &packet) {
 
 static void resetSession(const AudioPacket &initial_packet) {
     session_info().missing_packets.lock()->clear();
-    session_info().buffer.lock().get() =
-            std::make_unique<AudioBuffer>(BUFFER_SIZE, initial_packet, session_info().missing_packets);
+    session_info().buffer.lock().get() = std::make_unique<AudioBuffer>(
+            configuration().bsize / initial_packet.data.size(),
+            initial_packet,
+            session_info().missing_packets
+    );
     session_info().session_id.lock().get() = initial_packet.session_id;
     session_info().psize.lock().get() = initial_packet.data.size();
     session_info().initiated.lock().get() = true;
@@ -28,7 +37,10 @@ static bool channelIsCurrent(const udp::Address &channel) {
     return _lock->has_value() && *_lock.get() == channel;
 }
 
-void dataListener(const udp::Address &channel) {
+void dataListener(const std::optional<udp::Address> &_channel) {
+    if (!_channel)
+        return;
+    udp::Address channel = *_channel;
     udp::GroupReceiver receiver(channel);
     while (channelIsCurrent(channel)) {
         auto message = receiver.receive();
@@ -65,6 +77,153 @@ void dataOutput() {
 MutexValue<std::optional<udp::Address>> &current_channel() {
     static auto *value = new MutexValue(std::optional<udp::Address>({}));
     return *value;
+}
+
+MutexValue<std::list<RadioStation>> &stations() {
+    static auto *_stations = new MutexValue<std::list<RadioStation>>(std::list<RadioStation>());
+    return *_stations;
+}
+
+const unsigned MAX_LOOKUPS = 4;
+
+void changeChannel(const std::optional<udp::Address> &address) {
+    current_channel().lock().get() = address;
+    session_info().initiated.lock().get() = false;
+    event_stream().write(MenuEvent(ApplicationEventType::CHANGE_CHANNEL));
+}
+
+void setNewMenu(LockedValue<std::list<RadioStation>> &_lock) {
+    if (_lock->empty()) {
+        radio_menu().lock()->setListing(nullptr);
+        event_stream().write(MenuEvent(ApplicationEventType::MENU_CHANGE));
+        changeChannel({});
+        return;
+    }
+    std::vector<menu::Option> options;
+    unsigned current_index = 0;
+    auto ch_lock = current_channel().lock();
+    unsigned i = 0;
+    for (auto &rs: _lock.get()) {
+        if (rs.channel == ch_lock.get()) current_index = i;
+        options.emplace_back(rs.name, [=](){ changeChannel(rs.channel); });
+        ++i;
+    }
+    options_listing().lock().get() = std::make_unique<menu::OptionsListing>(options);
+    radio_menu().lock()->setListing(options_listing().lock().get().get());
+    options_listing().lock().get()->active_index = current_index;
+    event_stream().write(MenuEvent(ApplicationEventType::MENU_CHANGE));
+}
+
+void sendLookup(udp::Broadcaster &sock) {
+    sock.send(ctrl::LOOKUP_HEADER);
+    auto _lock = stations().lock();
+    bool to_delete = false;
+    for (auto &it : _lock.get()) {
+        if (++it.lookups >= MAX_LOOKUPS) to_delete = true;
+        std::cerr << it.lookups << std::endl;
+    }
+    if (to_delete) {
+        std::list<RadioStation> new_list;
+        std::copy_if(
+                _lock.get().begin(),
+                _lock.get().end(),
+                std::back_inserter(new_list),
+                [](const RadioStation &rs) { return rs.lookups < MAX_LOOKUPS; }
+                );
+        _lock.get() = new_list;
+        setNewMenu(_lock);
+    }
+}
+
+const unsigned LOOKUP_INTERVAL_SECONDS = 5;
+const long REPLY_TIMEOUT_MILLISECONDS = 200;
+
+uint16_t validatePort(const std::string &port) {
+    unsigned long ul = stoul(port);
+    if (ul >= std::numeric_limits<uint16_t>::min() && ul <= std::numeric_limits<uint16_t>::max()) {
+        return (uint16_t) ul;
+    } else {
+        throw std::exception();
+    }
+}
+
+std::optional<RadioStation> parseReply(const std::vector<uint8_t> &bytes) {
+    std::stringstream ss(std::string(bytes.begin(), bytes.end()));
+    std::string header;
+    ss >> header;
+    if (header != ctrl::REPLY_HEADER) return {};
+    std::string mcast;
+    std::string port_str;
+    uint16_t port;
+    ss >> mcast >> port_str;
+    std::unique_ptr<udp::Address> addr;
+    try {
+        port = validatePort(port_str);
+    } catch (...) {
+        return {};
+    }
+    try {
+        addr = std::make_unique<udp::Address>(mcast, port);
+    } catch (...) {
+        return {};
+    }
+    std::string name;
+    std::getline(ss, name);
+    if (name.size() > ctrl::MAX_NAME_LENGTH) return {};
+
+    return RadioStation(*addr, name);
+}
+
+void updateStation(LockedValue<std::list<RadioStation>> &list_lock, const RadioStation &station) {
+    for (auto &rs : list_lock.get()) {
+        if (rs.channel == station.channel) {
+            rs.name = station.name;
+            rs.lookups = 0;
+        };
+    }
+}
+
+void insertStation(LockedValue<std::list<RadioStation>> &list_lock, const RadioStation &station) {
+    auto where_to_insert = list_lock->begin();
+    while (where_to_insert != list_lock->end()) {
+        if (station.name > where_to_insert->name) break;
+        ++where_to_insert;
+    }
+    list_lock->insert(where_to_insert, station);
+    setNewMenu(list_lock);
+    if (list_lock->size() == 1)
+        changeChannel(station.channel);
+}
+
+void handleReply(const std::vector<uint8_t> &bytes) {
+    auto station = parseReply(bytes);
+    if (!station) return;
+    auto list_lock = stations().lock();
+    bool present = std::any_of(
+            list_lock->begin(),
+            list_lock->end(),
+            [&](const RadioStation &rs) { return rs.channel == station->channel; }
+            );
+    if (present) {
+        updateStation(list_lock, *station);
+        return;
+    }
+    insertStation(list_lock, *station);
+}
+
+void discoverer() {
+    udp::Broadcaster sock(udp::Address(configuration().discover_ip, configuration().control_port));
+//    sock.setTimeout(REPLY_TIMEOUT_MILLISECONDS);
+    while (true) {
+        sendLookup(sock);
+        auto timer = std::chrono::system_clock::now();
+        while (std::chrono::system_clock::now() - timer < std::chrono::seconds(LOOKUP_INTERVAL_SECONDS)) {
+            auto dgram = sock.receive(REPLY_TIMEOUT_MILLISECONDS);
+            if (dgram.data.empty()) continue;
+            if (!ctrl::controlPacketBytesValidation(dgram.data)) continue;
+            handleReply(dgram.data);
+        }
+    }
 }
 
 bool SessionInfo::ready() {

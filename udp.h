@@ -114,12 +114,18 @@ namespace udp {
 //            if (setsockopt(fd, SOL_IP, IP_MULTICAST_LOOP, (void*)&optval, sizeof optval) < 0)
 //                throw SocketException("Error in setsockopt - loop.");
 
-            if (connect(fd, (sockaddr *) address.ptr(), sizeof(sockaddr_in)) < 0)
-                throw SocketException("Error while connecting broadcaster.");
+//            if (connect(fd, (sockaddr *) address.ptr(), sizeof(sockaddr_in)) < 0)
+//                throw SocketException("Error while connecting broadcaster.");
 
         }
 
         void send(const std::vector<uint8_t> &bytes);
+
+        void send(const std::string &str);
+
+        Datagram receive();
+
+        Datagram receive(long timeout);
 
     };
 

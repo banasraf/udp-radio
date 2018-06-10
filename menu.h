@@ -39,9 +39,7 @@ namespace menu {
         std::vector<Option> listing;
         unsigned active_index; /// current option
 
-        explicit OptionsListing(const std::vector<Option> &options): listing(options), active_index(0) {
-            assert(!listing.empty());
-        }
+        explicit OptionsListing(const std::vector<Option> &options): listing(options), active_index(0) {}
 
         /**
          * Select option at given index
@@ -84,6 +82,11 @@ namespace menu {
         unsigned getActiveIndex() const;
 
         explicit Menu(OptionsListing* current_listing): current_listing(current_listing) {}
+
+        void setListing(OptionsListing *listing);
+
+        bool empty() const;
+
     };
 }
 

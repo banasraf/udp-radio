@@ -143,7 +143,7 @@ ByteStream::series_t terminal::control::SetStyle::toBytes() {
 }
 
 const ByteStream::series_t &terminal::control::ClearScreenSeq() {
-    static ByteStream::series_t *clear_screen_seq = new ByteStream::series_t({ESCAPE_BYTE, '[', 'J'});
+    static ByteStream::series_t *clear_screen_seq = new ByteStream::series_t({ESCAPE_BYTE, '[', '2', 'J'});
     return *clear_screen_seq;
 }
 

@@ -3,22 +3,12 @@
 #include <iostream>
 #include "telnet-processor.h"
 #include "radio-menu.h"
-
+#include "player.h"
 
 
 MutexValue<menu::Menu> &radio_menu() {
-    static auto *options_listing = new menu::OptionsListing ({
-            menu::Option("Stacja 1", [](){}),
-            menu::Option("Stacja 2", [](){})
-    });
-
-    static auto *menu = new MutexValue<menu::Menu>(menu::Menu(options_listing));
+    static auto *menu = new MutexValue<menu::Menu>(menu::Menu(nullptr));
     return *menu;
-}
-
-MutexValue<terminal::TextScreen> &text_screen() {
-    static MutexValue<terminal::TextScreen> *_text_screen = new MutexValue(terminal::TextScreen(20));
-    return *_text_screen;
 }
 
 MultiInputStream<MenuEvent> &event_stream() {
@@ -50,12 +40,10 @@ void handleUserInput(ByteStream &net_stream) {
 
 void sendMenu() {
     auto menu_lock = radio_menu().lock();
-    auto text_screen_lock = text_screen().lock();
     auto output_lock = menu_output().lock();
-    MenuDrawer md(15);
-    md.drawAt(text_screen_lock.get(), 3, 2, menu_lock.get());
+    auto message = terminalScreen(menuToString(menu_lock.get()));
     try {
-        output_lock.writeBytes(text_screen_lock->renderToBytes());
+        output_lock.writeBytes(message);
         output_lock.flushOutput();
     } catch (const IOException &e) {
         std::cerr << "Radio menu: write error." << std::endl;
@@ -64,6 +52,7 @@ void sendMenu() {
 
 void eventLoop() {
     bool running = true;
+    std::list<std::future<void>> players;
     while (running) {
         auto event = event_stream().read();
         if (event.tag == MenuEvent::Tag::USER_EVENT) {
@@ -88,6 +77,10 @@ void eventLoop() {
                     sendMenu();
                     break;
                 }
+                case ApplicationEventType::CHANGE_CHANNEL: {
+                    players.push_back(std::async([](){ dataListener(current_channel().lock().get()); }));
+                    break;
+                }
                 case ApplicationEventType::STOP: {
                     running = false;
                 }
@@ -108,9 +101,6 @@ void menuServer(uint16_t port) {
     std::list<std::future<void>> tasks_handles;
     std::shared_ptr<TcpStream> new_tcp_stream;
 
-    MenuDrawer menu_drawer(15);
-    menu_drawer.drawAt(text_screen().lock().get(), 3, 1, radio_menu().lock().get());
-
     while (running) {
         new_tcp_stream = listener.acceptClient();
         tasks_handles.push_back(std::async([&]() {
@@ -119,8 +109,8 @@ void menuServer(uint16_t port) {
             auto writer = connection.getWriter();
             {
                 auto writer_lock = writer->lock();
-                writer_lock->writeBytes(text_screen().lock()->initialBytes());
-                writer_lock->writeBytes(text_screen().lock()->renderToBytes());
+                auto message = terminalScreen(menuToString(radio_menu().lock().get()));
+                writer_lock->writeBytes(message);
                 writer_lock->flushOutput();
             }
             try {
@@ -128,10 +118,15 @@ void menuServer(uint16_t port) {
             } catch (const IOException &e) {
                 std::cerr << e.what() << std::endl;
             }
-            std::cout << "Radio menu: client " << connection.getIP() << " has disconnected." << std::endl;
         }));
 
     }
+}
+
+MutexValue<std::unique_ptr<menu::OptionsListing>> &options_listing() {
+    static auto *listing =
+            new MutexValue<std::unique_ptr<menu::OptionsListing>>(std::unique_ptr<menu::OptionsListing>());
+    return *listing;
 }
 
 std::shared_ptr<telnet::Stream> UserConnection::getStream() {
@@ -144,4 +139,19 @@ std::shared_ptr<MutexValue<ByteStreamWriter>> UserConnection::getWriter() {
 
 std::string UserConnection::getIP() {
     return tcp_stream->ip();
+}
+
+std::string MenuEvent::toString() const {
+    if (tag  == Tag::USER_EVENT) {
+        return "KEY";
+    } else {
+        switch (event) {
+            case ApplicationEventType::MENU_CHANGE:
+                return "MENU";
+            case ApplicationEventType::CHANGE_CHANNEL:
+                return "CHANNEL";
+            default:
+                return "OTHER";
+        }
+    }
 }

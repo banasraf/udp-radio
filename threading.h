@@ -7,6 +7,7 @@
 #include <future>
 #include <queue>
 #include <list>
+#include <iostream>
 
 template <typename T>
 class MutexValue;

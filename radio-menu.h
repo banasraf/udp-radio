@@ -43,6 +43,7 @@ public:
 enum class ApplicationEventType {
     NEW_USER,
     MENU_CHANGE,
+    CHANGE_CHANNEL,
     STOP,
     NONE
 };
@@ -59,6 +60,8 @@ struct MenuEvent {
         terminal::ActionKeyType key;
         ApplicationEventType event;
     };
+
+    std::string toString() const;
 
     explicit MenuEvent(terminal::ActionKeyType key): tag(Tag::USER_EVENT), key(key) {}
 
@@ -106,7 +109,7 @@ void menuServer(uint16_t port);
 
 MutexValue<menu::Menu> &radio_menu();
 
-MutexValue<terminal::TextScreen> &text_screen();
+MutexValue<std::unique_ptr<menu::OptionsListing>> &options_listing();
 
 MultiWriter &menu_output();
 

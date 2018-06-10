@@ -1,3 +1,4 @@
+#include <iostream>
 #include "udp.h"
 
 const sockaddr_in *udp::Address::ptr() const {
@@ -58,7 +59,46 @@ void udp::Socket::bindToPort(uint16_t port) {
 }
 
 void udp::Broadcaster::send(const std::vector<uint8_t> &bytes) {
-    write(fd, bytes.data(), bytes.size());
+//    write(fd, bytes.data(), bytes.size());
+    sendto(fd,
+           bytes.data(),
+           bytes.size(),
+           0,
+           (const sockaddr*) address.ptr(),
+           sizeof(sockaddr_in));
+}
+
+udp::Datagram udp::Broadcaster::receive() {
+    std::vector<uint8_t> message(Socket::MAX_DATAGRAM_SIZE);
+    sockaddr_in addr;
+    socklen_t sock_size = sizeof(sockaddr_in);
+    ssize_t count = recvfrom(fd, message.data(), Socket::MAX_DATAGRAM_SIZE, 0, (sockaddr*) &addr, &sock_size);
+    if (count < 0) {
+        throw IOException("Error in receive.");
+    }
+    message.resize((unsigned long) count);
+    return Datagram(Address(addr), message);
+}
+
+void udp::Broadcaster::send(const std::string &str) {
+    sendto(fd,
+           str.data(),
+           str.size(),
+           0,
+           (const sockaddr*) address.ptr(),
+           sizeof(sockaddr_in));
+}
+
+udp::Datagram udp::Broadcaster::receive(long timeout_ms) {
+    timeval timeout;
+    timeout.tv_sec = timeout_ms / 1000;
+    timeout.tv_usec = timeout_ms % 1000 * 1000;
+    fd_set set;
+    FD_ZERO(&set);
+    FD_SET(fd, &set);
+    int sel = select(FD_SETSIZE, &set, nullptr, nullptr, &timeout);
+    if (sel > 0) return receive();
+    return Datagram(udp::Address(sockaddr_in()), "");
 }
 
 std::vector<uint8_t> udp::GroupReceiver::receive() {

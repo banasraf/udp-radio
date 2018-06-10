@@ -28,17 +28,25 @@ static uint64_t htonl64(uint64_t uint64) {
 int main(int argc, char **argv) {
 
 
-//    auto menu_server_handle = async([](){ menuServer(10001); });
-//    eventLoop();
+    configuration().control_port = 10001;
+    configuration().ui_port = 13333;
 
 
-//    udp::GroupReceiver gr(udp::Address("239.10.11.12", 15000));
-//    auto msg = gr.receive();
-//    std::cout << std::string(msg.begin(), msg.end()) << std::endl;
-
-    udp::Address channel("239.10.11.12", 15000);
-    current_channel().lock().get() = channel;
-    std::thread t([=]() {dataListener(channel);});
-    dataOutput();
+    auto menu_server_handle = async([](){
+        while (true) {
+            try {
+                menuServer(configuration().ui_port);
+            } catch (const SocketException &sock_exc) {
+                std::cerr << sock_exc.what() << std::endl;
+                exit(1);
+            } catch (const IOException &io_exc) {
+                std::cerr << io_exc.what() << std::endl;
+                std::this_thread::sleep_for(std::chrono::seconds(1)); // server reincarnation after failure
+                continue;
+            }
+        }
+    });
+    auto discoverer_handle = async(discoverer);
+    eventLoop();
     return 0;
 }

@@ -8,18 +8,8 @@
 #include "menu.h"
 #include "text-screen.h"
 
-class MenuDrawer {
+std::string menuToString(const menu::Menu &menu);
 
-    unsigned long lines_count;  /// number of lines used for drawing menu
-
-public:
-    explicit MenuDrawer(unsigned long lines_count): lines_count(lines_count) {};
-
-    /**
-     * Draw menu at given position
-     */
-    void drawAt(terminal::TextScreen &text_screen, unsigned long line, int column, const menu::Menu &menu);
-
-};
+ByteStream::series_t terminalScreen(const std::string &text);
 
 #endif //TELNET_SERVER_MENU_DRAWER_H

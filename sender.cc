@@ -29,13 +29,6 @@ std::unique_ptr<PacketFifo> &packet_fifo() {
     return _packet_fifo;
 }
 
-
-bool controlPacketBytesValidation(const std::vector<uint8_t> &bytes) {
-    return std::all_of(bytes.begin(), bytes.end(), [](uint8_t byte) {
-        return (byte >= 32 && byte <= 127) || byte == 10 || byte == 13;
-    });
-}
-
 std::string reply_message() {
     std::stringstream result;
     result << ctrl::REPLY_HEADER << ' ';
@@ -69,7 +62,7 @@ void controller() {
     sock.bindToPort(configuration()->control_port);
     while (true) {
         auto datagram = sock.receive();
-        if (!controlPacketBytesValidation(datagram.data))
+        if (!ctrl::controlPacketBytesValidation(datagram.data))
             continue;
         auto author = datagram.address;
         auto message = std::string(datagram.data.begin(), datagram.data.end());
@@ -117,14 +110,9 @@ void resend_packets(udp::Socket &sock) {
 
 void resender() {
     udp::Socket sock;
-    timespec t {
-            configuration()->rtime / 1000,
-            configuration()->rtime % 1000 * 1000
-    };
-    timespec trem {0, 0};
     while (true) {
         resend_packets(sock);
-        nanosleep(&t, &trem);
+        std::this_thread::sleep_for(std::chrono::microseconds(configuration()->rtime));
     }
 }
 
