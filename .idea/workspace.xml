@@ -15,16 +15,7 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0a3bab5f-0b2f-47ae-b8ef-b8b1f6edde6b" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/Makefile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/audio-transmission.cc" beforeDir="false" afterPath="$PROJECT_DIR$/audio-transmission.cc" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/audio-transmission.h" beforeDir="false" afterPath="$PROJECT_DIR$/audio-transmission.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/play.sh" beforeDir="false" afterPath="$PROJECT_DIR$/play.sh" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/player.cc" beforeDir="false" afterPath="$PROJECT_DIR$/player.cc" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sender_main.cc" beforeDir="false" afterPath="$PROJECT_DIR$/sender_main.cc" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/udp.h" beforeDir="false" afterPath="$PROJECT_DIR$/udp.h" afterDir="false" />
-    </list>
+    <list default="true" id="0a3bab5f-0b2f-47ae-b8ef-b8b1f6edde6b" name="Default" comment="" />
     <ignored path="$PROJECT_DIR$/cmake-build-debug/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -93,8 +84,8 @@
       <file leaf-file-name="player.cc" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/player.cc">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="175">
-              <caret line="224" column="57" selection-start-line="224" selection-start-column="57" selection-end-line="224" selection-end-column="57" />
+            <state relative-caret-position="-2241">
+              <caret line="16" column="50" selection-start-line="16" selection-start-column="50" selection-end-line="16" selection-end-column="50" />
               <folding>
                 <element signature="e#0#19#0" expanded="true" />
               </folding>
@@ -333,16 +324,15 @@
       <workItem from="1528380609842" duration="7437000" />
       <workItem from="1528391068457" duration="8526000" />
       <workItem from="1528400034437" duration="23851000" />
-      <workItem from="1528478162847" duration="108881000" />
+      <workItem from="1528478162847" duration="109145000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="360772000" />
+    <option name="totallyTimeSpent" value="361036000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-1" y="0" width="1922" height="1053" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="right" id="Cargo" order="4" />
@@ -350,9 +340,9 @@
       <window_info anchor="bottom" id="CMake" order="11" weight="0.32983193" />
       <window_info anchor="bottom" id="Event Log" order="9" sideWeight="0.50026953" side_tool="true" weight="0.3130252" />
       <window_info anchor="bottom" id="Version Control" order="10" weight="0.32938644" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.49973047" visible="true" weight="0.32938644" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49973047" weight="0.32938644" />
       <window_info anchor="bottom" id="Terminal" order="8" weight="0.32938644" />
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.20021299" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.20021299" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32983193" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
@@ -772,8 +762,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/player.cc">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="175">
-          <caret line="224" column="57" selection-start-line="224" selection-start-column="57" selection-end-line="224" selection-end-column="57" />
+        <state relative-caret-position="-2241">
+          <caret line="16" column="50" selection-start-line="16" selection-start-column="50" selection-end-line="16" selection-end-column="50" />
           <folding>
             <element signature="e#0#19#0" expanded="true" />
           </folding>
