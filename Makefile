@@ -1,6 +1,6 @@
-SOURCES = control-protocol.h control-protocol.cc errors.h audio-transmission.cc audio-transmission.h udp.cc udp.h threading.cc threading.h
-SENDER_SOURCES = sender.h sender.cc sender_main.cc 
-RECEIVER_SOURCES = receiver_main.cc radio-menu.cc radio-menu.h tcp-socket.cc tcp-socket.h byte-stream.h system-stream.cc system-stream.h telnet-processor.cc telnet-processor.h menu.cc menu.h terminal.cc terminal.h text-screen.cc text-screen.h menu-drawer.cc menu-drawer.h player.cc player.h
+SOURCES = audio-transmission.cc udp.cc threading.cc control-protocol.cc
+SENDER_SOURCES = sender.cc sender-main.cc
+RECEIVER_SOURCES = receiver-main.cc radio-menu.cc tcp-socket.cc system-stream.cc telnet-processor.cc menu.cc terminal.cc text-screen.cc menu-drawer.cc player.cc
 
 all: sikradio-sender sikradio-receiver
 

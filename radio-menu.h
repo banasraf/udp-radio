@@ -5,7 +5,7 @@
 #include "terminal.h"
 #include "threading.h"
 #include "tcp-socket.h"
-#include "application.h"
+#include "telnet-processor.h"
 #include "text-screen.h"
 #include "menu-drawer.h"
 #include <iostream>
